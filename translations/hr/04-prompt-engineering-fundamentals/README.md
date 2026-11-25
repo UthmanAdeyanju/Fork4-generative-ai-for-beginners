@@ -1,141 +1,143 @@
-# Osnove prompt inženjeringa
+# Osnove projektiranja prompta
 
-[![Osnove prompt inženjeringa](../../../translated_images/hr/04-lesson-banner.a2c90deba7fedacd.webp)](https://youtu.be/GElCu2kUlRs?si=qrXsBvXnCW12epb8)
+[![Osnove projektiranja prompta](../../../translated_images/hr/04-lesson-banner.a2c90deba7fedacd.webp)](https://youtu.be/GElCu2kUlRs?si=qrXsBvXnCW12epb8)
 
 ## Uvod
-Ovaj modul pokriva osnovne pojmove i tehnike za izradu učinkovitih promptova u generativnim AI modelima. Način na koji pišete svoj prompt za LLM također je važan. Pažljivo izrađeni prompt može postići bolju kvalitetu odgovora. Ali što točno znače pojmovi poput _prompt_ i _prompt inženjering_? I kako poboljšati prompt _ulaz_ koji šaljem LLM-u? To su pitanja na koja ćemo pokušati odgovoriti u ovom i sljedećem poglavlju.
+Ovaj modul pokriva osnovne pojmove i tehnike za izradu učinkovitih promptova u modelima generativne umjetne inteligencije. Način na koji napišete svoj prompt za LLM također je važan. Pažljivo izrađen prompt može postići bolju kvalitetu odgovora. Ali što zapravo znače pojmovi poput _prompt_ i _projektiranje prompta_? I kako mogu poboljšati prompt _unosa_ koji šaljem LLM-u? To su pitanja na koja ćemo pokušati odgovoriti u ovom i sljedećem poglavlju.
 
-_Generativna AI_ je sposobna stvarati novi sadržaj (npr. tekst, slike, audio, kod itd.) kao odgovor na korisničke zahtjeve. To postiže korištenjem _velikih jezičnih modela_ poput OpenAI-jeve GPT ("Generative Pre-trained Transformer") serije koji su trenirani za rad s prirodnim jezikom i kodom.
+_Generativna AI_ sposobna je stvarati novi sadržaj (npr. tekst, slike, zvuk, kod itd.) kao odgovor na korisničke zahtjeve. Postiže to korištenjem _velikih jezičnih modela_ poput OpenAI-jeve GPT ("Generative Pre-trained Transformer") serije koji su trenirani za rad s prirodnim jezikom i kodom.
 
-Korisnici sada mogu komunicirati s tim modelima koristeći poznate paradigme poput chata, bez potrebe za tehničkim znanjem ili obukom. Modeli su _prompt-bazirani_ - korisnici šalju tekstualni unos (prompt) i dobivaju AI odgovor (dovršetak). Zatim mogu "razgovarati s AI-em" iterativno, u višekružnim konverzacijama, usavršavajući svoj prompt dok odgovor ne zadovolji njihova očekivanja.
+Korisnici sada mogu komunicirati s tim modelima koristeći poznate paradigme poput chata, bez potrebe za tehničkim znanjem ili treningom. Modeli su _temeljeni na promptovima_ - korisnici šalju tekstualni unos (prompt) i dobivaju AI odgovor (dovršetak). Potom mogu "razgovarati s AI-jem" iterativno, u višekratnim krugovima konverzacije, usavršavajući svoj prompt dok odgovor ne zadovolji njihova očekivanja.
 
-"Prompti" sada postaju glavno _programsko sučelje_ za generativne AI aplikacije, govoreći modelima što da rade i utječući na kvalitetu vraćenih odgovora. "Prompt inženjering" je brzo rastuće područje istraživanja koje se fokusira na _dizajn i optimizaciju_ promptova kako bi se isporučili dosljedni i kvalitetni odgovori u velikom opsegu.
+"Promptovi" sada postaju primarno _programersko sučelje_ za aplikacije generativne AI, govoreći modelima što da rade i utječući na kvalitetu dobivenih odgovora. "Projektiranje prompta" je brzo rastuće područje proučavanja koje se fokusira na _dizajn i optimizaciju_ promptova kako bi se isporučivali dosljedni i kvalitetni odgovori u velikom opsegu.
 
 ## Ciljevi učenja
 
-U ovom satu učimo što je prompt inženjering, zašto je važan i kako možemo izraditi učinkovitije prompte za određeni model i cilj aplikacije. Razumjet ćemo osnovne pojmove i najbolje prakse za prompt inženjering – te upoznati interaktivno Jupyter Notebook "sandbox" okruženje gdje možemo vidjeti primjenu tih koncepata na stvarnim primjerima.
+U ovoj lekciji učimo što je projektiranje prompta, zašto je važno i kako možemo napraviti učinkovitije promptove za određeni model i cilj aplikacije. Razumjet ćemo osnovne pojmove i najbolje prakse za projektiranje prompta - te upoznati interaktivno Jupyter Notebook "sandbox" okruženje u kojem možemo vidjeti primjenu tih pojmova na stvarnim primjerima.
 
-Na kraju ovog sata moći ćemo:
+Do kraja ove lekcije moći ćemo:
 
-1. Objasniti što je prompt inženjering i zašto je važan.
+1. Objasniti što je projektiranje prompta i zašto je važno.
 2. Opisati komponente prompta i kako se koriste.
-3. Naučiti najbolje prakse i tehnike za prompt inženjering.
+3. Naučiti najbolje prakse i tehnike za projektiranje prompta.
 4. Primijeniti naučene tehnike na stvarne primjere, koristeći OpenAI endpoint.
 
 ## Ključni pojmovi
 
-Prompt inženjering: Praksa dizajniranja i usavršavanja unosa kako bi se AI modeli usmjerili na proizvodnju željenih rezultata.  
-Tokenizacija: Proces pretvaranja teksta u manje jedinice, zvane tokeni, koje model može razumjeti i obraditi.  
-Instruction-Tuned LLMs: Veliki jezični modeli (LLM) koji su dodatno trenirani s specifičnim uputama za poboljšanje točnosti i relevantnosti odgovora.
+Projektiranje prompta: Praksa dizajniranja i usavršavanja unosa za usmjerenje AI modela prema željenim izlazima.
+Tokenizacija: Proces pretvaranja teksta u manje jedinice, zvane tokeni, koje model može razumjeti i obraditi.
+Instrukcijski podešeni LLM-ovi: Veliki jezični modeli koji su dodatno podešeni posebnim uputama za poboljšanje točnosti i relevantnosti njihovih odgovora.
 
-## Sandbox za učenje
+## Okruženje za učenje
 
-Prompt inženjering je trenutačno više umjetnost nego znanost. Najbolji način da poboljšamo intuiciju jest _više vježbati_ i usvojiti pristup pokušaja i pogrešaka koji kombinira stručnost u području primjene s preporučenim tehnikama i optimizacijama specifičnim za model.
+Projektiranje prompta trenutačno je više umjetnost nego znanost. Najbolji način da poboljšamo intuiciju za to je _vježbati više_ i usvojiti pristup pokušaja i pogreške koji kombinira stručnost iz područja primjene s preporučenim tehnikama i optimizacijama specifičnim za model.
 
-Jupyter Notebook koji prati ovaj sat pruža _sandbox_ okruženje gdje možete isprobati što ste naučili – tijekom rada ili kao dio izazova koda na kraju. Za izvršavanje vježbi potreban vam je:
+Jupyter Notebook koji prati ovu lekciju pruža _sandbox_ okruženje gdje možete isprobati naučeno – tijekom rada ili kao dio izazova na kraju. Za izvođenje vježbi trebate:
 
-1. **Azure OpenAI API ključ** – servisni endpoint za implementirani LLM.  
-2. **Python runtime** – u kojem se može izvršiti Notebook.  
-3. **Lokalne varijable okoline** – _sada dovršite [SETUP](./../00-course-setup/02-setup-local.md?WT.mc_id=academic-105485-koreyst) korake da se pripremite_.
+1. **API ključ za Azure OpenAI** – servisni endpoint za implementirani LLM.
+2. **Python Runtime** – u kojem Notebook može biti izvršen.
+3. **Lokalne varijable okoline** – _sada dovršite korake [SETUP](./../00-course-setup/02-setup-local.md?WT.mc_id=academic-105485-koreyst) da se pripremite_.
 
-Notebook dolazi s _početnim_ vježbama – ali potičemo vas da dodate vlastite sekcije s _Markdown_ (opis) i _Code_ (zahtjevi prompta) kako biste isprobali više primjera ili ideja – te gradili svoju intuiciju za dizajn promptova.
+Notebook dolazi s _početnim_ vježbama – ali potičemo vas da dodate vlastite _Markdown_ (opisne) i _Kod_ (zahtjeve prompta) dijelove za isprobavanje više primjera ili ideja – kako biste izgradili intuiciju za dizajn prompta.
 
 ## Ilustrirani vodič
 
-Želite li dobiti cjelovitu sliku onoga što ovaj sat pokriva prije nego što krenete? Pogledajte ovaj ilustrirani vodič koji Vam pruža pregled glavnih tema i ključnih poruka za razmišljanje. Vodič kroz sat vodi vas od razumijevanja osnovnih pojmova i izazova do njihovog rješavanja relevantnim tehnikama i najboljim praksama prompt inženjeringa. Imajte na umu da se odjeljak "Napredne tehnike" u ovom vodiču odnosi na sadržaj pokriven u _sljedećem_ poglavlju ovog kurikuluma.
+Želite li dobiti širu sliku onoga što ova lekcija pokriva prije nego što se upustite u detalje? Pogledajte ovaj ilustrirani vodič, koji vam daje osjećaj glavnih tema i ključnih spoznaja o kojima treba razmisliti u svakoj. Putokaz lekcije vodi vas od razumijevanja osnovnih pojmova i izazova do njihova rješavanja relevantnim tehnikama i najboljim praksama projektiranja prompta. Napomena da odjeljak "Napredne tehnike" u ovom vodiču odnosi se na sadržaj obrađen u _sljedećem_ poglavlju ovog kurikuluma.
 
-![Ilustrirani vodič za prompt inženjering](../../../translated_images/hr/04-prompt-engineering-sketchnote.d5f33336957a1e4f.webp)
+![Ilustrirani vodič za projektiranje prompta](../../../translated_images/hr/04-prompt-engineering-sketchnote.d5f33336957a1e4f.webp)
 
 ## Naš startup
 
-Sad, razgovarajmo o tome kako se _ova tema_ povezuje s našom misijom startupa da [donesemo AI inovacije u obrazovanje](https://educationblog.microsoft.com/2023/06/collaborating-to-bring-ai-innovation-to-education?WT.mc_id=academic-105485-koreyst). Želimo izraditi AI-pokretane aplikacije za _personalizirano učenje_ – pa razmislimo kako različiti korisnici naše aplikacije mogu "dizajnirati" prompte:
+Sada razgovarajmo o tome kako se _ova tema_ odnosi na našu misiju startupa da [donesemo AI inovacije u obrazovanje](https://educationblog.microsoft.com/2023/06/collaborating-to-bring-ai-innovation-to-education?WT.mc_id=academic-105485-koreyst). Želimo izgraditi AI-pokretane aplikacije za _personalizirano učenje_ – pa razmislimo o tome kako različiti korisnici naše aplikacije mogu "dizajnirati" promptove:
 
-- **Administratori** mogu tražiti AI od _analize kurikuluma kako bi identificirali praznine u pokrivenosti_. AI može sažeti rezultate ili ih vizualizirati kodom.  
-- **Nastavnici** mogu tražiti AI od _generiranja plana nastave za ciljno publiku i temu_. AI može izraditi personalizirani plan u zadanom formatu.  
-- **Učenici** mogu tražiti AI da ih _podučava u teškoj temi_. AI će voditi učenike lekcijama, savjetima i primjerima prilagođenim njihovoj razini.
+- **Administratori** mogu tražiti od AI-ja da _analizira podatke o kurikulumu kako bi identificirao praznine u pokrivenosti_. AI može sažeti rezultate ili ih vizualizirati uz pomoć koda.
+- **Nastavnici** mogu tražiti od AI-ja da _generira plan lekcije za ciljanu publiku i temu_. AI može izraditi personalizirani plan u određenom formatu.
+- **Učenici** mogu tražiti od AI-ja da _ih podučava o složenom predmetu_. AI sada može voditi učenike s lekcijama, uputama i primjerima prilagođenima njihovoj razini.
 
-To je samo vrh ledenog brijega. Pogledajte [Prompte za obrazovanje](https://github.com/microsoft/prompts-for-edu/tree/main?WT.mc_id=academic-105485-koreyst) – open-source biblioteku promptova koju su kurirali obrazovni stručnjaci – da biste dobili širi dojam o mogućnostima! _Isprobajte neke od tih promptova u sandboxu ili koristeći OpenAI Playground i vidite što će se dogoditi!_
+To je samo vrh sante leda. Pogledajte [Prompts For Education](https://github.com/microsoft/prompts-for-edu/tree/main?WT.mc_id=academic-105485-koreyst) – otvorenu biblioteku promptova koju su pripremili stručnjaci za obrazovanje – za širi dojam mogućnosti! _Pokušajte pokrenuti neke od tih promptova u sandboxu ili koristite OpenAI Playground da vidite što se događa!_
 
 <!--
-LESSON TEMPLATE:
-This unit should cover core concept #1.
-Reinforce the concept with examples and references.
+ŠABLON LEKCIJE:
+Ovaj dio treba obuhvatiti osnovni pojam #1.
+Ojačajte pojam primjerima i referencama.
 
-CONCEPT #1:
-Prompt Engineering.
-Define it and explain why it is needed.
+POJAM #1:
+Projektiranje prompta.
+Definirajte ga i objasnite zašto je potreban.
 -->
 
-## Što je Prompt Inženjering?
+## Što je projektiranje prompta?
 
-Započeli smo ovaj sat definiranjem **prompt inženjeringa** kao procesa _dizajniranja i optimizacije_ tekstualnih unosa (promptova) za postizanje dosljednih i kvalitetnih odgovora (dovršetaka) za određeni cilj aplikacije i model. To možemo zamisliti kao proces u dva koraka:
+Lekciju smo započeli definiranjem **projektiranja prompta** kao procesa _dizajniranja i optimiziranja_ tekstualnih unosa (promptova) kako bi se isporučili dosljedni i kvalitetni odgovori (dovršetci) za određeni cilj aplikacije i model. Možemo to smatrati dvostupanjskim procesom:
 
-- _dizajniranje_ početnog prompta za određeni model i cilj  
-- _usavršavanje_ prompta iterativno za poboljšanje kvalitete odgovora
+- _dizajniranje_ početnog prompta za određeni model i cilj
+- _usavršavanje_ prompta iterativno radi poboljšanja kvalitete odgovora
 
-To je nužno proces pokušaja i pogrešaka koji zahtijeva korisničku intuiciju i trud da bi se postigli optimalni rezultati. Zašto je to važno? Za odgovor prvo trebamo razumjeti tri pojma:
+To je nužno proces pokušaja i pogreške koji zahtijeva korisničku intuiciju i trud za postizanje optimalnih rezultata. Zašto je to važno? Da bismo odgovorili na to pitanje, prvo trebamo razumjeti tri pojma:
 
-- _Tokenizacija_ = kako model "vidi" prompt  
-- _Osnovni LLM_ = kako temeljni model "obrađuje" prompt  
-- _Instruction-Tuned LLM_ = kako model sada može "vidjeti zadatke"
+- _Tokenizacija_ = kako model "vidi" prompt
+- _Osnovni LLM-ovi_ = kako temeljni model "obrađuje" prompt
+- _Instrukcijski podešeni LLM-ovi_ = kako model sada može vidjeti "zadatke"
 
 ### Tokenizacija
 
-LLM vidi prompte kao _niz tokena_ gdje različiti modeli (ili verzije modela) mogu tokenizirati isti prompt na različite načine. Budući da su LLM-ovi trenirani na tokenima (a ne na sirovom tekstu), način na koji se prompt tokenizira direktno utječe na kvalitetu generiranog odgovora.
+LLM vidi promtove kao _sekvencu tokena_ gdje različiti modeli (ili verzije modela) mogu tokenizirati isti prompt na različite načine. Budući da su LLM-i trenirani na tokenima (a ne na sirovom tekstu), način na koji su promptovi tokenizirani ima izravan utjecaj na kvalitetu generiranog odgovora.
 
-Za intuiciju o tome kako funkcionira tokenizacija, isprobajte alate poput [OpenAI Tokenizer](https://platform.openai.com/tokenizer?WT.mc_id=academic-105485-koreyst) prikazanog dolje. Kopirajte svoj prompt – i pogledajte kako se pretvara u tokene, obraćajući pozornost na to kako se tretiraju znakovi razmaka i interpunkcija. Imajte na umu da ovaj primjer prikazuje stariji LLM (GPT-3) – pa isprobavanje s novijim modelom može dati drugačiji rezultat.
+Da biste stekli intuiciju kako tokenizacija funkcionira, isprobajte alate poput [OpenAI Tokenizer](https://platform.openai.com/tokenizer?WT.mc_id=academic-105485-koreyst) prikazanog ispod. Zalijepite svoj prompt – i vidite kako se pretvara u tokene, obraćajući pažnju na to kako se tretiraju razmaci i interpunkcijski znakovi. Napomena: ovaj primjer pokazuje stariji LLM (GPT-3) – pa isprobavanje s novijim modelom može dati drugačiji rezultat.
 
 ![Tokenizacija](../../../translated_images/hr/04-tokenizer-example.e71f0a0f70356c5c.webp)
 
 ### Pojam: Temeljni modeli
 
-Kad se prompt tokenizira, osnovna funkcija ["Osnovnog LLM-a"](https://blog.gopenai.com/an-introduction-to-base-and-instruction-tuned-large-language-models-8de102c785a6?WT.mc_id=academic-105485-koreyst) (ili temeljnog modela) je predvidjeti token u tom nizu. Budući da su LLM-ovi trenirani na ogromnim skupovima tekstualnih podataka, dobro poznaju statističke odnose između tokena i mogu tu predikciju izvesti s određenom sigurnošću. Imajte na umu da oni ne razumiju _značenje_ riječi u promptu ili tokenu; oni samo vide obrazac koji mogu "dovršiti" sljedećom predikcijom. Mogu nastaviti predviđati niz dok ih korisnik ne zaustavi ili se ne ispuni neki unaprijed postavljeni uvjet.
+Nakon što je prompt tokeniziran, glavna funkcija ["Osnovnog LLM-a"](https://blog.gopenai.com/an-introduction-to-base-and-instruction-tuned-large-language-models-8de102c785a6?WT.mc_id=academic-105485-koreyst) (ili temeljni model) je predvidjeti sljedeći token u toj sekvenci. Budući da su LLM-ovi trenirani na ogromnim skupovima podataka teksta, dobro poznaju statističke veze između tokena i mogu tu predikciju napraviti s određenim stupnjem sigurnosti. Napomena, oni ne razumiju _značenje_ riječi u promptu ili tokenu; oni samo vide obrazac koji mogu "dovršiti" sljedećom predikcijom. Mogu nastaviti predviđati sekvencu dok ih korisnik ne zaustavi ili se neka unaprijed utvrđena uvjet zadovolji.
 
-Želite li vidjeti kako radi dovršavanje temeljeno na promptu? Unesite gornji prompt u Azure OpenAI Studio [_Chat Playground_](https://oai.azure.com/playground?WT.mc_id=academic-105485-koreyst) s zadanim postavkama. Sustav je konfiguriran da tretira prompte kao zahtjeve za informacijama – tako da biste trebali vidjeti dovršetak koji zadovoljava taj kontekst.
+Želite li vidjeti kako funkcionira dovršetak temeljen na promptu? Unesite gore navedeni prompt u [Microsoft Foundry playground](https://ai.azure.com?WT.mc_id=academic-105485-koreyst) s zadanim postavkama. Sustav je konfiguriran da tretira promptove kao zahtjeve za informacijama – pa biste trebali vidjeti dovršetak koji zadovoljava taj kontekst.
 
-No što ako korisnik želi vidjeti nešto specifično što zadovoljava neki kriterij ili cilj zadatka? Tu na scenu dolaze _instruction-tuned_ LLM-ovi.
+Ali što ako korisnik želi vidjeti nešto specifično što zadovoljava neke kriterije ili cilj zadatka? Tada na scenu stupaju _instrukcijski podešeni_ LLM-ovi.
 
-![Osnovni LLM Chat dovršetak](../../../translated_images/hr/04-playground-chat-base.65b76fcfde0caa67.webp)
+![Dovršetak chata osnovnog LLM-a](../../../translated_images/hr/04-playground-chat-base.65b76fcfde0caa67.webp)
 
-### Pojam: Instruction-Tuned LLM
+### Pojam: Instrukcijski podešeni LLM-ovi
 
-[Instruction Tuned LLM](https://blog.gopenai.com/an-introduction-to-base-and-instruction-tuned-large-language-models-8de102c785a6?WT.mc_id=academic-105485-koreyst) započinje s temeljnim modelom i dodatno ga trenira s primjerima ili parovima ulaz/izlaz (npr. višekružnim "porukama") koje mogu sadržavati jasne upute – a odgovor AI-a pokušava slijediti te upute.
+[Instrukcijski podešeni LLM](https://blog.gopenai.com/an-introduction-to-base-and-instruction-tuned-large-language-models-8de102c785a6?WT.mc_id=academic-105485-koreyst) počinje s temeljnim modelom i dodatno ga podešava s primjerima ili ulazno-izlaznim parovima (npr. višekratnim "porukama") koje mogu sadržavati jasne upute – a odgovor AI-ja pokušava slijediti tu uputu.
 
-Koriste se tehnike poput učenja potkrepljenog povratnom informacijom od ljudi (RLHF) koje model treniraju da _slijedi upute_ i _uči iz povratnih informacija_, tako da generira odgovore koji su prikladniji za praktične primjene i relevantniji prema ciljevima korisnika.
+Koriste se tehnike poput učenja pojačanog povratnom informacijom od ljudi (RLHF) koje mogu trenirati model da _sluša upute_ i _uči iz povratnih informacija_ tako da proizvodi odgovore prikladnije za praktične primjene i relevantnije za korisničke ciljeve.
 
-Isprobajmo to – vratite se na gore navedeni prompt, ali sada promijenite _sistemsku poruku_ da pruži sljedeću uputu kao kontekst:
+Isprobajmo – vratite se na prethodni prompt, ali sada promijenite _poruku sustava_ da pružite sljedeću uputu kao kontekst:
 
-> _Sažmi sadržaj koji ti je dan za učenika drugog razreda. Ograniči rezultat na jedan odlomak s 3-5 točaka._
+> _Sažmi sadržaj koji ti se da za učenika drugog razreda. Zadrži rezultat u jednom odlomku s 3-5 točaka._
 
-Vidite li kako je rezultat sada namješten da odražava željeni cilj i format? Nastavnik sada može direktno koristiti taj odgovor u svojim prezentacijama za tu nastavu.
+Vidite li kako je rezultat sada usklađen s željenim ciljem i formatom? Nastavnik sada može izravno koristiti ovaj odgovor u svojim prezentacijama za tu nastavu.
 
-![Instruction Tuned LLM Chat dovršetak](../../../translated_images/hr/04-playground-chat-instructions.b30bbfbdf92f2d05.webp)
+![Dovršetak chata instrukcijski podešenog LLM-a](../../../translated_images/hr/04-playground-chat-instructions.b30bbfbdf92f2d05.webp)
 
-## Zašto trebamo prompt inženjering?
+## Zašto nam treba projektiranje prompta?
 
-Sad kad znamo kako modeli obrađuju prompte, razgovarajmo o _zašto_ nam treba prompt inženjering. Odgovor leži u činjenici da trenutni LLM-ovi predstavljaju nekoliko izazova zbog kojih je teže postići _pouzdane i dosljedne dovršetke_ bez uloženog truda u izgradnju i optimizaciju promptova. Na primjer:
+Sad kad znamo kako LLM-ovi obrađuju promptove, razgovarajmo o _zašto_ nam treba projektiranje prompta. Odgovor leži u činjenici da trenutačni LLM-ovi predstavljaju niz izazova koji otežavaju postizanje _pouzdanih i dosljednih dovršetaka_ bez truda uloženog u konstrukciju i optimizaciju prompta. Na primjer:
 
-1. **Odgovori modela su stohastički.** _Isti prompt_ vjerojatno će proizvesti različite odgovore na različitim modelima ili verzijama modela. Čak može dati različite rezultate s _istim modelom_ u različito vrijeme. _Tehnike prompt inženjeringa mogu nam pomoći minimizirati ova odstupanja dajući bolje zaštitne ograde_.
+1. **Odgovori modela su stohastički.** _Isti prompt_ vjerojatno će proizvesti različite odgovore s različitim modelima ili verzijama modela. Može također proizvesti različite rezultate s _istim modelom_ u različito vrijeme. _Tehnike projektiranja prompta mogu nam pomoći smanjiti te varijacije pružajući bolje smjernice_.
 
-1. **Modeli mogu izmišljati odgovore.** Modeli su predtrenirani na _velikim ali konačnim_ skupovima podataka, što znači da nemaju znanje o konceptima izvan tog skupa podataka. Kao rezultat, mogu generirati dovršetke koji su netočni, izmišljeni ili izravno suprotstavljeni poznatim činjenicama. _Tehnike prompt inženjeringa pomažu korisnicima identificirati i ublažiti takve izmišljotine, npr. traženjem citata ili obrazloženja od AI-a_.
+1. **Modeli mogu izmišljati odgovore.** Modeli su prethodno trenirani na _velikim, ali ograničenim_ skupovima podataka, što znači da nemaju znanje o konceptima izvan tog područja treniranja. Kao rezultat, mogu proizvesti dovršetke koji su netočni, izmišljeni ili izravno proturječe poznatim činjenicama. _Tehnike projektiranja prompta pomažu korisnicima da prepoznaju i smanje takve izmišljotine, npr. traženjem od AI-ja da navede izvore ili obrazloženje_.
 
-1. **Sposobnosti modela će varirati.** Noviji modeli ili generacije modela imaju bogatije sposobnosti, ali donose i posebne neobičnosti i kompromise u troškovima i složenosti. _Prompt inženjering može pomoći u razvoju najboljih praksi i tijekova rada koji apstrahiraju razlike i prilagođavaju se zahtjevima specifičnim za model na skalabilan i neprimjetan način_.
+1. **Sposobnosti modela variraju.** Noviji modeli ili generacije modela imat će bogatije sposobnosti, ali i jedinstvene specifičnosti i kompromise u troškovima i složenosti. _Projektiranje prompta može nam pomoći razviti najbolje prakse i radne tokove koji apstrahiraju razlike i prilagođavaju se zahtjevima specifičnim za model na skalabilan i besprijekoran način_.
 
-Pogledajmo to u akciji u OpenAI ili Azure OpenAI Playgroundu:
+Pogledajmo to u praksi u OpenAI ili Azure OpenAI Playgroundu:
 
-- Koristite isti prompt s različitim LLM implementacijama (npr. OpenAI, Azure OpenAI, Hugging Face) – jeste li vidjeli varijacije?  
-- Koristite isti prompt više puta s _istom_ LLM implementacijom (npr. Azure OpenAI playground) – kako su te varijacije bile različite?
+- Koristite isti prompt s različitim implementacijama LLM-a (npr. OpenAI, Azure OpenAI, Hugging Face) – jeste li vidjeli varijacije?
+- Koristite isti prompt ponovo i ponovo s _istom_ implementacijom LLM-a (npr. Azure OpenAI playground) – kako su se te varijacije razlikovale?
 
 ### Primjer izmišljotina
 
-U ovom tečaju koristimo pojam **"izmišljotina"** za fenomen kad LLM-ovi ponekad generiraju faktualno netočne informacije zbog ograničenja u treningu ili drugih uvjeta. Možda ste ovaj fenomen čuli i kao _"halucinacije"_ u popularnim člancima ili istraživačkim radovima. Međutim, snažno preporučujemo korištenje termina _"izmišljotina"_ kako bismo izbjegli antropomorfiziranje ponašanja dodjeljivanjem osobine slične čovjeku stroju. Ovo također podržava [Smernice za odgovornu AI](https://www.microsoft.com/ai/responsible-ai?WT.mc_id=academic-105485-koreyst) s aspekta terminologije, uklanjajući pojmove koji mogu biti uvredljivi ili neinkluzivni u nekim kontekstima.
+U ovom tečaju koristimo izraz **"izmišljotina"** za fenomen gdje LLM-ovi ponekad generiraju činjenicama netočne informacije zbog ograničenja u njihovom treningu ili drugim uvjetima. Možda ste ovaj fenomen čuli i pod nazivom _"halucinacije"_ u popularnim člancima ili znanstvenim radovima. Međutim, snažno preporučujemo korištenje termina _"izmišljotina"_ kako bismo izbjegli antropomorfiziranje ponašanja davanjem ljudske osobine stroju. Ovo također pojačava [smjernice za odgovornu AI](https://www.microsoft.com/ai/responsible-ai?WT.mc_id=academic-105485-koreyst) s perspektive terminologije, uklanjajući izraze koji se mogu smatrati uvredljivima ili neinkluzivnima u nekim kontekstima.
 
-Želite li dobiti dojam kako izmišljotine funkcioniraju? Zamislite prompt koji AI-u daje uputu da generira sadržaj za nepostojeću temu (da ne bi bila prisutna u trening skupu podataka). Na primjer – isprobao sam ovaj prompt:
+Želite li dobiti dojam kako izmišljotine funkcioniraju? Zamislite prompt koji upućuje AI da generira sadržaj za nepostojeću temu (kako biste osigurali da je nema u trening skupu podataka). Primjerice – probao sam ovaj prompt:
 
-> **Prompt:** generiraj plan lekcije o Marsovskoj ratu 2076. godine.
-Pretraživanje na webu pokazalo mi je da postoje fiktivni prikazi (npr. televizijske serije ili knjige) o ratovima na Marsu - ali nijedan iz 2076. Zdrav razum nam također govori da je 2076. _u budućnosti_ i stoga ne može biti povezan s pravim događajem.
+> **Prompt:** generiraj plan lekcije o Martijskoj ratu 2076.
 
-Pa što se događa kada ovaj upit pokrenemo kod različitih LLM pružatelja usluga?
+Pretraživanje na webu pokazalo mi je da postoje fikcionalni prikazi (npr. televizijske serije ili knjige) o martijanskim ratovima – ali nijedan iz 2076. Zdrav razum također nalaže da je 2076. _u budućnosti_ te stoga ne može biti povezan s nekim stvarnim događajem.
+
+
+Što se događa kada pokrenemo ovaj upit s različitim pružateljima LLM-a?
 
 > **Odgovor 1**: OpenAI Playground (GPT-35)
 
@@ -149,64 +151,64 @@ Pa što se događa kada ovaj upit pokrenemo kod različitih LLM pružatelja uslu
 
 ![Response 3](../../../translated_images/hr/04-fabrication-huggingchat.faf82a0a51278956.webp)
 
-Kao što se i očekivalo, svaki model (ili verzija modela) proizvodi pomalo različite odgovore zahvaljujući stohastičkom ponašanju i varijacijama u sposobnostima modela. Na primjer, jedan model cilja na publiku osmoga razreda, dok drugi pretpostavlja učenika srednje škole. Ali sva tri modela generirala su odgovore koji bi mogli uvjeriti neupućenog korisnika da je događaj stvaran.
+Kao što se i očekivalo, svaki model (ili verzija modela) daje malo drugačije odgovore zahvaljujući stohastičkom ponašanju i varijacijama sposobnosti modela. Na primjer, jedan model cilja na publiku osmog razreda, dok drugi pretpostavlja srednjoškolca. No sva tri modela su generirala odgovore koji bi mogli uvjeriti neupućenog korisnika da je događaj stvaran.
 
-Tehnike dizajna upita poput _metaupita_ i _konfiguracije temperature_ mogu donekle smanjiti izmišljotine modela. Nove arhitekture dizajna upita također bešavno uklapaju nove alate i tehnike u tijek upita, kako bi ublažile ili smanjile neke od tih efekata.
+Tehnike inženjerstva upita poput _metapromptinga_ i _konfiguracije temperature_ mogu donekle smanjiti izmišljotine modela. Nove _arhitekture_ inženjerstva upita također neprimjetno uključuju nove alate i tehnike u tijek upita, kako bi ublažile ili smanjile neke od ovih učinaka.
 
 ## Studija slučaja: GitHub Copilot
 
-Završimo ovaj odjeljak tako da steknemo dojam kako se dizajn upita koristi u rješenjima u stvarnom svijetu, pogledom na jednu Studiju slučaja: [GitHub Copilot](https://github.com/features/copilot?WT.mc_id=academic-105485-koreyst).
+Završimo ovaj odjeljak dobivanjem uvida u to kako se inženjerstvo upita koristi u stvarnim rješenjima proučavanjem jedne studije slučaja: [GitHub Copilot](https://github.com/features/copilot?WT.mc_id=academic-105485-koreyst).
 
-GitHub Copilot je vaš "AI par-programer" – pretvara tekstualne upite u dovršetke koda i integriran je u vaše razvojno okruženje (npr. Visual Studio Code) za besprijekorno korisničko iskustvo. Kao što je dokumentirano u nizu blogova u nastavku, najranija verzija temeljila se na OpenAI Codex modelu – uz brzo shvaćanje od strane inženjera da je potrebno fino podešavanje modela i razvoj boljih tehnika dizajna upita za poboljšanje kvalitete koda. U srpnju su [predstavili poboljšani AI model koji ide dalje od Codexa](https://github.blog/2023-07-28-smarter-more-efficient-coding-github-copilot-goes-beyond-codex-with-improved-ai-model/?WT.mc_id=academic-105485-koreyst) za još brže prijedloge.
+GitHub Copilot je vaš "AI par programer" – pretvara tekstualne upite u kompletiranja koda i integriran je u vaše razvojno okruženje (npr. Visual Studio Code) za neprimjetno korisničko iskustvo. Kao što je dokumentirano u nizu blogova ispod, najranija verzija temeljila se na OpenAI Codex modelu – a inženjeri su brzo shvatili potrebu za dodatnim podešavanjem modela i razvojem boljih tehnika inženjerstva upita kako bi poboljšali kvalitetu koda. U srpnju su [predstavili poboljšani AI model koji ide dalje od Codexa](https://github.blog/2023-07-28-smarter-more-efficient-coding-github-copilot-goes-beyond-codex-with-improved-ai-model/?WT.mc_id=academic-105485-koreyst) za još brže prijedloge.
 
-Pročitajte postove redom kako biste pratili njihov put učenja.
+Pročitajte objave redom kako biste pratili njihov put učenja.
 
-- **Svibanj 2023** | [GitHub Copilot postaje bolji u razumijevanju vašeg koda](https://github.blog/2023-05-17-how-github-copilot-is-getting-better-at-understanding-your-code/?WT.mc_id=academic-105485-koreyst)
-- **Svibanj 2023** | [Iznutra u GitHubu: Rad s LLM-ovima iza GitHub Copilota](https://github.blog/2023-05-17-inside-github-working-with-the-llms-behind-github-copilot/?WT.mc_id=academic-105485-koreyst)
-- **Lipanj 2023** | [Kako pisati bolje upite za GitHub Copilot](https://github.blog/2023-06-20-how-to-write-better-prompts-for-github-copilot/?WT.mc_id=academic-105485-koreyst)
-- **Srpanj 2023** | [.. GitHub Copilot ide dalje od Codexa s poboljšanim AI modelom](https://github.blog/2023-07-28-smarter-more-efficient-coding-github-copilot-goes-beyond-codex-with-improved-ai-model/?WT.mc_id=academic-105485-koreyst)
-- **Srpanj 2023** | [Vodič za programere kroz dizajn upita i LLM-e](https://github.blog/2023-07-17-prompt-engineering-guide-generative-ai-llms/?WT.mc_id=academic-105485-koreyst)
-- **Rujan 2023** | [Kako napraviti enterprise LLM aplikaciju: Lekcije iz GitHub Copilota](https://github.blog/2023-09-06-how-to-build-an-enterprise-llm-application-lessons-from-github-copilot/?WT.mc_id=academic-105485-koreyst)
+- **Svibanj 2023.** | [GitHub Copilot postaje bolji u razumijevanju vašeg koda](https://github.blog/2023-05-17-how-github-copilot-is-getting-better-at-understanding-your-code/?WT.mc_id=academic-105485-koreyst)
+- **Svibanj 2023.** | [Unutar GitHuba: Rad s LLM-ovima iza GitHub Copilota](https://github.blog/2023-05-17-inside-github-working-with-the-llms-behind-github-copilot/?WT.mc_id=academic-105485-koreyst)
+- **Lipanj 2023.** | [Kako pisati bolje upite za GitHub Copilot](https://github.blog/2023-06-20-how-to-write-better-prompts-for-github-copilot/?WT.mc_id=academic-105485-koreyst)
+- **Srpanj 2023.** | [.. GitHub Copilot ide dalje od Codexa s poboljšanim AI modelom](https://github.blog/2023-07-28-smarter-more-efficient-coding-github-copilot-goes-beyond-codex-with-improved-ai-model/?WT.mc_id=academic-105485-koreyst)
+- **Srpanj 2023.** | [Vodič za programere za inženjerstvo upita i LLM-e](https://github.blog/2023-07-17-prompt-engineering-guide-generative-ai-llms/?WT.mc_id=academic-105485-koreyst)
+- **Rujan 2023.** | [Kako izgraditi enterprise LLM aplikaciju: Lekcije iz GitHub Copilota](https://github.blog/2023-09-06-how-to-build-an-enterprise-llm-application-lessons-from-github-copilot/?WT.mc_id=academic-105485-koreyst)
 
-Također možete pregledavati njihov [Inženjerski blog](https://github.blog/category/engineering/?WT.mc_id=academic-105485-koreyst) za više postova poput [ovog](https://github.blog/2023-09-27-how-i-used-github-copilot-chat-to-build-a-reactjs-gallery-prototype/?WT.mc_id=academic-105485-koreyst) koji prikazuje kako se ovi modeli i tehnike _primjenjuju_ za pokretanje stvarnih aplikacija.
+Također možete pregledavati njihov [Inženjerski blog](https://github.blog/category/engineering/?WT.mc_id=academic-105485-koreyst) za još postova poput [ovog](https://github.blog/2023-09-27-how-i-used-github-copilot-chat-to-build-a-reactjs-gallery-prototype/?WT.mc_id=academic-105485-koreyst) koji pokazuje kako se ovi modeli i tehnike _primjenjuju_ za pokretanje stvarnih aplikacija.
 
 ---
 
 <!--
 LESSON TEMPLATE:
-This unit should cover core concept #2.
-Reinforce the concept with examples and references.
+Ova jedinica bi trebala pokriti osnovni pojam #2.
+Ojačajte pojam primjerima i referencama.
 
-CONCEPT #2:
-Prompt Design.
-Illustrated with examples.
+Pojam #2:
+Dizajn upita.
+Ilustrirano primjerima.
 -->
 
-## Izgradnja upita
+## Konstrukcija upita
 
-Već smo vidjeli zašto je dizajn upita važan – sada razumijmo kako se upiti _izgrađuju_ da bismo mogli procijeniti različite tehnike za učinkovitiji dizajn upita.
+Vidjeli smo zašto je inženjerstvo upita važno – sada razumimo kako se upiti _konstruiraju_ kako bismo mogli procijeniti različite tehnike za učinkovitiji dizajn upita.
 
 ### Osnovni upit
 
-Počnimo s osnovnim upitom: tekstualnim unosom poslanim modelu bez dodatnog konteksta. Evo primjera – kada pošaljemo prve riječi američke himne OpenAI [Completion API-ju](https://platform.openai.com/docs/api-reference/completions?WT.mc_id=academic-105485-koreyst), on odmah _dovrši_ odgovor sljedećim nekoliko redaka, ilustrirajući osnovno ponašanje predviđanja.
+Počnimo s osnovnim upitom: unosom teksta poslanim modelu bez dodatnog konteksta. Evo primjera – kada pošaljemo prve riječi američke himne na OpenAI [Completion API](https://platform.openai.com/docs/api-reference/completions?WT.mc_id=academic-105485-koreyst), on odmah _dovršava_ odgovor s nekoliko sljedećih redaka, ilustrirajući osnovno ponašanje predviđanja.
 
-| Upit (unos)       | Dovršetak (izlaz)                                                                                                                           |
-| :---------------- | :----------------------------------------------------------------------------------------------------------------------------------------- |
-| Oh say can you see | Izgleda da započinjete tekst "The Star-Spangled Banner," državne himne Sjedinjenih Država. Cijeli tekst glasi ...                         |
+| Upit (Unos)       | Dovršetak (Izlaz)                                                                                                                         |
+| :----------------- | :----------------------------------------------------------------------------------------------------------------------------------------- |
+| Oh say can you see | Čini se da započinjete stihove "The Star-Spangled Banner," američke himne. Cijeli tekst glasi ...                                        |
 
 ### Složeni upit
 
-Sada dodajmo kontekst i upute tom osnovnom upitu. [Chat Completion API](https://learn.microsoft.com/azure/ai-services/openai/how-to/chatgpt?WT.mc_id=academic-105485-koreyst) omogućuje nam da složeni upit konstruiramo kao skup _poruka_ s:
+Sada dodajmo kontekst i upute tom osnovnom upitu. [Chat Completion API](https://learn.microsoft.com/azure/ai-services/openai/how-to/chatgpt?WT.mc_id=academic-105485-koreyst) dopušta nam konstruiranje složenog upita kao zbirke _poruka_ s:
 
-- Parovima unos/izlaz koji odražavaju korisnički upit i odgovor asistenta.
-- Porukom sustava koja postavlja kontekst ponašanja ili osobnosti asistenta.
+- Parovima unosa/izlaza koji odražavaju unos _korisnika_ i odgovor _pomoćnika_.
+- Porukom sustava koja postavlja kontekst ponašanja ili osobnosti pomoćnika.
 
-Zahtjev je sada u obliku ispod, gdje _tokenizacija_ učinkovito hvata relevantne informacije iz konteksta i razgovora. Promjena sistemskog konteksta može biti jednako utjecajna na kvalitetu dovršetaka kao i dani korisnički unosi.
+Zahtjev je sada u obliku ispod, gdje _tokenizacija_ efektivno hvata relevantne informacije iz konteksta i razgovora. Promjena sustavnog konteksta može biti jednako utjecajna na kvalitetu dovršetaka kao i korisnički unosi.
 
 ```python
-response = openai.chat.completions.create(
-    model="gpt-3.5-turbo",
-    messages=[
+response = client.responses.create(
+    model="gpt-4o-mini",
+    input=[
         {"role": "system", "content": "You are a helpful assistant."},
         {"role": "user", "content": "Who won the world series in 2020?"},
         {"role": "assistant", "content": "The Los Angeles Dodgers won the World Series in 2020."},
@@ -215,40 +217,40 @@ response = openai.chat.completions.create(
 )
 ```
 
-### Uputni upit
+### Uputa u upitu
 
-U gornjim primjerima, korisnički upit bio je jednostavan tekstualni upit koji se može interpretirati kao zahtjev za informacijom. Uz _upute_, možemo koristiti taj tekst za detaljnije specificiranje zadatka, pružajući AI bolju smjernicu. Evo primjera:
+U gore navedenim primjerima, korisnički upit bio je jednostavan tekstualni zahtjev koji se može interpretirati kao zahtjev za informacijama. S _uputama_ u upitima možemo koristiti taj tekst za detaljnije specificiranje zadatka, pružajući bolju smjernicu AI-u. Evo primjera:
 
-| Upit (unos)                                                                                                                                                                                                                           | Dovršetak (izlaz)                                                                                                   | Tip upute          |
-| :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------ | :----------------- |
-| Napiši opis Građanskog rata                                                                                                                                                                                                            | _vraćena je jednostavna rečenica_                                                                                  | Jednostavno        |
-| Napiši opis Građanskog rata. Navedi ključne datume i događaje te opiši njihov značaj                                                                                                                                                  | _vratila se rečenica praćena popisom ključnih datuma događaja s opisima_                                            | Složeno            |
-| Napiši opis Građanskog rata u 1 odlomku. Navedi 3 stavke s ključnim datumima i njihovim značajem. Navedi još 3 stavke s važnim povijesnim osobama i njihovim doprinosima. Vrati izlaz kao JSON datoteku | _vraća opsežniji tekst formatiran u JSON koji možete kopirati u datoteku i po potrebi validirati_                     | Složeno. Formatirano. |
+| Upit (Unos)                                                                                                                                                                                                                         | Dovršetak (Izlaz)                                                                                                        | Tip upute          |
+| :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------- | :------------------ |
+| Napiši opis građanskog rata                                                                                                                                                                                                      | _vratio je jednostavan paragraf_                                                                                          | Jednostavno         |
+| Napiši opis građanskog rata. Navedi ključne datume i događaje te opiši njihov značaj                                                                                                                                                 | _vratio je paragraf praćen popisom ključnih datuma događaja s opisima_                                                   | Složeno              |
+| Napiši opis građanskog rata u jednom paragrafu. Navedi 3 točke s ključnim datumima i njihovim značajima. Navedi još 3 točke s ključnim povijesnim osobama i njihovim doprinosima. Vrati ishod u JSON datoteci | _vraća detaljnije informacije u tekstualnom okviru, formatiranom kao JSON koji možete kopirati i zalijepiti u datoteku i prema potrebi provjeriti valjanost_ | Složeno. Formatirano. |
 
 ## Primarni sadržaj
 
-U gore navedenim primjerima, upit je još uvijek bio prilično otvoren, dopuštajući LLM-u da odluči koji dio svog prethodno naučenog skupa podataka je relevantan. Uz dizajnerski uzorak _primarnog sadržaja_, ulazni tekst dijeli se na dva dijela:
+U gore navedenim primjerima, upit je bio prilično otvoren, dopuštajući LLM-u da odluči koji dio svog unaprijed naučenog skupa podataka je relevantan. S dizajnom _primarnog sadržaja_, ulazni tekst je podijeljen u dva dijela:
 
-- uputa (akcija)
+- uputu (akciju)
 - relevantni sadržaj (koji utječe na akciju)
 
-Evo primjera gdje je uputa "sažmi to u 2 rečenice".
+Evo primjera gdje je uputa "sažmi ovo u 2 rečenice".
 
-| Upit (unos)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | Dovršetak (izlaz)                                                                                                                                                                                                                                                       |
-| :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Jupiter je peti planet od Sunca i najveći u Sunčevom sustavu. To je plinski div mase tisućinu puta manje od Sunca, ali dvije i pol puta veće od svih ostalih planeta u Sunčevom sustavu zajedno. Jupiter je jedan od najsjajnijih objekata vidljivih golim okom na noćnom nebu, poznat drevnim civilizacijama još prije zabilježene povijesti. Ime je dobio po rimskom bogu Jupiteru.[19] Kada se promatra s Zemlje, Jupiter može biti dovoljno sjajan da odbaci vidljive sjene[20], i u prosjeku je treći najsjajniji prirodni objekt na noćnom nebu nakon Mjeseca i Venere. <br/> **Sažmi ovo u 2 kratke rečenice** | Jupiter, peti planet od Sunca, najveći je u Sunčevom sustavu i poznat je kao jedan od najsjajnijih objekata na noćnom nebu. Ime je dobio po rimskom bogu Jupiteru i plinski je div čija je masa dvije i pol puta veća od mase svih ostalih planeta u Sunčevom sustavu zajedno. |
+| Upit (Unos)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | Dovršetak (Izlaz)                                                                                                                                                                                                                                                                             |
+| :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Jupiter je peta planeta od Sunca i najveća u Sunčevom sustavu. To je plinski div s masom tisuću puta manjom od Sunca, ali dva i pol puta većom od svih ostalih planeta u Sunčevom sustavu zajedno. Jupiter je jedan od najsvjetlijih objekata vidljivih golim okom na noćnom nebu i poznat je drevnim civilizacijama još prije zapisane povijesti. Ime je dobio po rimskom bogu Jupiteru.[19] Kada se gleda sa Zemlje, Jupiter može biti dovoljno svijetao da njegova reflektirajuća svjetlost baca vidljive sjene,[20] i u prosjeku je treći najsvjetliji prirodni objekt na noćnom nebu nakon Mjeseca i Venere. <br/> **Sažmi ovo u 2 kratke rečenice** | Jupiter, peta planeta od Sunca, je najveća u Sunčevom sustavu i poznata je po tome što je jedan od najsvjetlijih objekata na noćnom nebu. Ime je dobio po rimskom bogu Jupiteru, a to je plinski div čija je masa dva i pol puta veća od mase svih ostalih planeta u Sunčevom sustavu zajedno. |
 
 Segment primarnog sadržaja može se koristiti na različite načine za učinkovitije upute:
 
-- **Primjeri** – umjesto da modelu kažemo što treba raditi eksplicitnom uputom, dajemo mu primjere onoga što treba napraviti i dopuštamo mu da zaključi uzorak.
-- **Naznake** – slijede uputu "naznakom" koja inicira dovršetak, usmjeravajući model prema relevantnijim odgovorima.
-- **Predlošci** – to su ponovljive 'recepte' za upite s rezerviranim mjestima (varijablama) koje se mogu prilagoditi podacima za specifične slučajeve.
+- **Primjeri** - umjesto da se modelu eksplicitno kaže što treba napraviti, dajte mu primjere što treba raditi i neka izvuče obrazac.
+- **Nagovještaji** - slijedi uputa s "nagovještajem" koji priprema dovršetak, usmjeravajući model ka relevantnijim odgovorima.
+- **Predlošci** - to su ponovljivi 'recepti' za upite s rezerviranim mjestima (varijablama) koje se mogu prilagođavati podacima za specifične slučajeve.
 
-Pogledajmo kako to izgleda u praksi.
+Pogledajmo ih u praksi.
 
 ### Korištenje primjera
 
-Ovo je pristup u kojem koristite primarni sadržaj da "hranite model" nekim primjerima željenog izlaza za određenu uputu i dopustite mu da zaključi uzorak željenog izlaza. Na temelju broja danih primjera, možemo imati nula-shot, jedan-shot, few-shot i sl.
+Ovo je pristup u kojem koristite primarni sadržaj da "hranite model" nekim primjerima željenog ishoda za zadanu uputu, i dajte mu da izvuče obrazac željenog izlaza. Na temelju broja pruženih primjera, možemo imati zero-shot upite, one-shot upite, few-shot upite itd.
 
 Upit sada sadrži tri komponente:
 
@@ -256,154 +258,155 @@ Upit sada sadrži tri komponente:
 - Nekoliko primjera željenog izlaza
 - Početak novog primjera (koji postaje implicitni opis zadatka)
 
-| Tip učenja  | Upit (unos)                                                                                                                     | Dovršetak (izlaz)          |
-| :---------- | :----------------------------------------------------------------------------------------------------------------------------- | :------------------------- |
-| Nula-shot   | "The Sun is Shining". Prevedi na španjolski                                                                                   | "El Sol está brillando".   |
-| Jedan-shot  | "The Sun is Shining" => ""El Sol está brillando". <br> "It's a Cold and Windy Day" =>                                          | "Es un día frío y ventoso".|
-| Few-shot    | Igrač je trčao oko baza => Baseball <br/> Igrač je pogodio as => Tenis <br/> Igrač je pogodio šesticu => Kriket <br/> Igrač je zabio zakucavanje => | Košarka                    |
-|             |                                                                                                                                |                            |
+| Tip učenja | Upit (Unos)                                                                                                                                        | Dovršetak (Izlaz)         |
+| :------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------- |
+| Zero-shot     | "The Sun is Shining". Prevedi na španjolski                                                                                                         | "El Sol está brillando".    |
+| One-shot      | "The Sun is Shining" => ""El Sol está brillando". <br> "It's a Cold and Windy Day" =>                                                                 | "Es un día frío y ventoso". |
+| Few-shot      | Igrač je pretrčao baze => Baseball <br/> Igrač je odigrao as => Tenis <br/> Igrač je postigao šest => Kriket <br/> Igrač je napravio zakucavanje =>     | Košarka                   |
+|               |                                                                                                                                                       |                             |
 
-Primijetite kako smo morali dati eksplicitnu uputu ("Prevedi na španjolski") u nula-shot pristupu, ali (ona) se prepoznaje u primjeru jedan-shot. Few-shot primjer pokazuje kako dodavanje više primjera omogućuje modelima da preciznije zaključuju bez dodatnih uputa.
+Primijetite kako smo morali dati eksplicitnu uputu ("Prevedi na španjolski") u zero-shot upitu, ali to se izvuče u primjeru one-shot upita. Few-shot primjer pokazuje kako dodavanje više primjera omogućava modelima točnije zaključke bez dodatnih uputa.
 
-### Naznake upita
+### Nagovještaji u upitu
 
-Druga tehnika za korištenje primarnog sadržaja jest davanje _naznaka_ umjesto primjera. U tom slučaju dajemo modelu lagani poticaj u pravom smjeru tako što ga _počinje_ s isječkom koji odražava željeni format odgovora. Model potom "uzima naznaku" da nastavi u tom stilu.
+Druga tehnika za korištenje primarnog sadržaja je davanje _nagovještaja_ umjesto primjera. U ovom slučaju dajemo modelu poticaj u pravom smjeru tako što ga _početno pokrećemo_ s odlomkom koji odražava željeni format odgovora. Model tada "uzima nagovještaj" da nastavi u tom smjeru.
 
-| Broj naznaka | Upit (unos)                                                                                                                                                                                                                                                                                                                                                                                                                                               | Dovršetak (izlaz)                                                                                                                                                                                                                                                                                       |
-| :----------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 0            | Jupiter je peti planet od Sunca i najveći u Sunčevom sustavu. To je plinski div mase tisućinu puta manje od Sunca, ali dvije i pol puta veće od svih ostalih planeta u Sunčevom sustavu zajedno. Jupiter je jedan od najsjajnijih objekata vidljivih golim okom na noćnom nebu, poznat drevnim civilizacijama još prije zabilježene povijesti. <br/>**Sažmi ovo**                                               | Jupiter je najveći planet u našem Sunčevom sustavu i peti je po redu od Sunca. To je plinski div mase 1/1000 masa Sunca, ali teži više od svih ostalih planeta zajedno. Drevne su civilizacije jako dugo znale za Jupitera i lako je vidljiv na noćnom nebu.                                                           |
-| 1              | Jupiter je peta planeta od Sunca i najveća u Sunčevom sustavu. To je plinski div s masom tisućinku Sunčeve, ali dvije i pol puta većom od svih ostalih planeta u Sunčevom sustavu zajedno. Jupiter je jedan od najsvjetlijih objekata vidljivih golim okom na noćnom nebu i poznat je starim civilizacijama još iz predzabilježene povijesti. <br/>**Sažetak** <br/> Ono što smo naučili jest da je Jupiter | peta planeta od Sunca i najveća u Sunčevom sustavu. To je plinski div s masom tisućinku Sunčeve, ali dvije i pol puta većom od svih ostalih planeta zajedno. Lako je vidljiv golim okom i poznat je od davnina.                        |
-| 2              | Jupiter je peta planeta od Sunca i najveća u Sunčevom sustavu. To je plinski div s masom tisućinku Sunčeve, ali dvije i pol puta većom od svih ostalih planeta u Sunčevom sustavu zajedno. Jupiter je jedan od najsvjetlijih objekata vidljivih golim okom na noćnom nebu i poznat je starim civilizacijama još iz predzabilježene povijesti. <br/>**Sažetak** <br/> 3 najvažnije činjenice koje smo naučili:         | 1. Jupiter je peta planeta od Sunca i najveća u Sunčevom sustavu. <br/> 2. To je plinski div s masom tisućinku Sunčeve...<br/> 3. Jupiter je golim okom vidljiv od davnina ...                                                                       |
+| Broj nagovještaja | Upit (Unos)                                                                                                                                                                                                                                                                                                                                                                                                                                               | Dovršetak (Izlaz)                                                                                                                                                                                                                                                                                       |
+| :------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0              | Jupiter je peta planeta od Sunca i najveća u Sunčevom sustavu. To je plinski div s masom tisuću puta manjom od Sunca, ali dva i pol puta većom od svih ostalih planeta u Sunčevom sustavu zajedno. Jupiter je jedan od najsvjetlijih objekata vidljivih golim okom na noćnom nebu i poznat je drevnim civilizacijama još prije zapisane povijesti. <br/>**Sažmi ovo**                                       | Jupiter je najveća planeta u našem Sunčevom sustavu i peta po redu od Sunca. To je plinski div s masom 1/1000 mase Sunca, ali teži od svih ostalih planeta zajedno. Drevne civilizacije poznaju Jupiter dugo vremena i lako je vidljiv na noćnom nebu. |
+| 1              | Jupiter je peta planeta od Sunca i najveća u Sunčevom sustavu. To je plinski div s masom tisuću puta manjom od Sunca, ali dva i pol puta većom od svih ostalih planeta u Sunčevom sustavu zajedno. Jupiter je jedan od najsvjetlijih objekata vidljivih golim okom na noćnom nebu i poznat je drevnim civilizacijama još prije zapisane povijesti. <br/>**Sažmi ovo** <br/> Ono što smo naučili je da je Jupiter | peta planeta od Sunca i najveća u Sunčevom sustavu. To je plinski div s masom tisuću puta manjom od Sunca, ali dva i pol puta većom od mase svih ostalih planeta zajedno. Lako je vidljiv golim okom i poznat je od davnina.                       |
+
+| 2              | Jupiter je peta planeta od Sunca i najveća u Sunčevom sustavu. To je plinski div s masom tisuću puta manjom od mase Sunca, ali dva i pol puta većom od mase svih ostalih planeta u Sunčevom sustavu zajedno. Jupiter je jedan od najsjajnijih objekata vidljivih golim okom na noćnom nebu, i poznat je drevnim civilizacijama još od prije zapisanih povijesnih zapisa. <br/>**Sažetak** <br/> Top 3 činjenice koje smo naučili:         | 1. Jupiter je peta planeta od Sunca i najveća u Sunčevom sustavu. <br/> 2. To je plinski div s masom tisuću puta manjom od mase Sunca...<br/> 3. Jupiter je vidljiv golim okom od davnina ...                                                                       |
 |                |                                                                                                                                                                                                                                                                                                                                                                                                                                                              |                                                                                                                                                                                                                                                                                                           |
 
 ### Predlošci upita
 
-Predložak upita je _unaprijed definirani recept za upit_ koji se može pohraniti i ponovno upotrijebiti prema potrebi kako bi se postiglo dosljednije korisničko iskustvo u velikom opsegu. U svom najjednostavnijem obliku to je jednostavno zbirka primjera upita poput [ovog iz OpenAI](https://cookbook.openai.com/examples/gpt4-1_prompting_guide?WT.mc_id=academic-105485-koreyst) koji pruža i interaktivne komponente upita (poruke korisnika i sustava) i API format zahtjeva - za podršku ponovnoj upotrebi.
+Predložak upita je _preddefinirani recept za upit_ koji se može pohraniti i ponovno koristiti prema potrebi, kako bi se osigurala dosljednija iskustva korisnika u većem opsegu. U svom najjednostavnijem obliku, to je samo zbirka primjera upita poput [ovog od OpenAI](https://cookbook.openai.com/examples/gpt4-1_prompting_guide?WT.mc_id=academic-105485-koreyst) koji pruža interaktivne komponente upita (poruke korisnika i sustava) i format zahtjeva vođen API-jem - kako bi se podržala njihova ponovna upotreba.
 
-U složenijem obliku kao [ovaj primjer iz LangChain](https://python.langchain.com/docs/concepts/prompt_templates/?WT.mc_id=academic-105485-koreyst) sadrži _zamjenske oznake_ koje se mogu zamijeniti podacima iz različitih izvora (korisnički unos, kontekst sustava, vanjski izvori podataka itd.) za dinamičko generiranje upita. To nam omogućuje stvaranje biblioteke ponovljivo upotrebljivih upita kojima se može programatski upravljati radi postizanja dosljednog korisničkog iskustva u velikom opsegu.
+U složenijem obliku poput [ovog primjera od LangChain](https://python.langchain.com/docs/concepts/prompt_templates/?WT.mc_id=academic-105485-koreyst), sadrži _zamjenske oznake_ koje se mogu zamijeniti podacima iz različitih izvora (korisnički unos, kontekst sustava, vanjski izvori podataka itd.) kako bi se dinamički generirao upit. To nam omogućuje stvaranje knjižnice ponovo upotrebljivih upita koje se mogu koristiti za dosljedna korisnička iskustva **programatski** u skali.
 
-Na kraju, stvarna vrijednost predložaka leži u mogućnosti stvaranja i objavljivanja _biblioteka upita_ za vertikalne aplikacijske domene - gdje je predložak upita sada _optimiziran_ kako bi odražavao kontekst specifičan za aplikaciju ili primjere koji čine odgovore relevantnijima i preciznijima za ciljanu korisničku publiku. Spremište [Prompts For Edu](https://github.com/microsoft/prompts-for-edu?WT.mc_id=academic-105485-koreyst) izvrstan je primjer takvog pristupa, sakupljajući biblioteku upita za obrazovni domen s naglaskom na ključne ciljeve poput planiranja lekcija, dizajna kurikuluma, podučavanja učenika i slično.
+Konačno, prava vrijednost predložaka leži u mogućnosti stvaranja i objavljivanja _knjižnica upita_ za vertikalne domene aplikacija - gdje je predložak upita sada _optimiziran_ da odražava kontekst ili primjere specifične za aplikaciju koji čine odgovore relevantnijima i točnijima za ciljanu publiku korisnika. Spremište [Prompts For Edu](https://github.com/microsoft/prompts-for-edu?WT.mc_id=academic-105485-koreyst) je odličan primjer ovog pristupa, kurirajući knjižnicu upita za obrazovni sektor s naglaskom na ključne ciljeve poput planiranja lekcija, dizajna nastavnog plana, poduke učenika itd.
 
-## Pomoćni sadržaj
+## Podržani sadržaj
 
-Ako promatramo konstrukciju upita kao kombinaciju upute (zadatka) i cilja (primarni sadržaj), tada je _sekundarni sadržaj_ poput dodatnog konteksta koji pružamo kako bismo **na neki način utjecali na izlaz**. To mogu biti parametri podešavanja, upute za oblikovanje, taksonomije tema i slično, što modelu pomaže da _prilagodi_ svoj odgovor da udovolji željenim korisničkim ciljevima ili očekivanjima.
+Ako razmišljamo o konstrukciji upita kao sastavljenoj od uputa (zadatka) i cilja (primarni sadržaj), tada je _sekundarni sadržaj_ poput dodatnog konteksta koji pružamo da **na neki način utječemo na ishod**. To mogu biti parametri podešavanja, upute za formatiranje, taksonomije tema itd. koje mogu pomoći modelu da _prilagodi_ svoj odgovor kako bi odgovarao željenim ciljevima ili očekivanjima korisnika.
 
-Na primjer: Imamo katalog kolegija s opširnim metapodacima (naziv, opis, razina, oznake metapodataka, predavač itd.) o svim dostupnim kolegijima u programu:
+Na primjer: S obzirom na katalog tečajeva s opsežnim metapodacima (naziv, opis, razina, oznake metapodataka, instruktor itd.) za sve dostupne tečajeve u nastavnom planu:
 
-- možemo definirati uputu "sažmi katalog kolegija za jesen 2023."
-- možemo koristiti primarni sadržaj za pružanje nekoliko primjera željenog rezultata
-- možemo koristiti sekundarni sadržaj za identifikaciju pet najvažnijih "oznatki"
+- možemo definirati uputu za "sažetak kataloga tečajeva za jesen 2023."
+- možemo koristiti primarni sadržaj da pružimo nekoliko primjera željenog izlaza
+- možemo koristiti sekundarni sadržaj da identificiramo 5 najvažnijih "oznaka".
 
-Sada model može dati sažetak u formatu prikazanom primjerima - ali ako rezultat sadrži više oznaka, može prioritetizirati pet oznaka identificiranih u sekundarnom sadržaju.
+Sada model može pružiti sažetak u formatu prikazanom na nekoliko primjera - ali ako rezultat sadrži više oznaka, može dati prednost 5 oznaka identificiranih u sekundarnom sadržaju.
 
 ---
 
 <!--
-LESSON TEMPLATE:
-Ovaj odjeljak treba pokriti osnovni koncept #1.
-Ojačajte koncept primjerima i referencama.
+PREDLOŽAK LEKCIJE:
+Ova sesija treba obuhvatiti osnovni pojam #1.
+Potkrijepiti pojam primjerima i referencama.
 
-KONCEPT #3:
-Tehnike za izradu upita.
-Koje su osnovne tehnike za izradu upita?
-Prikažite to na vježbama.
+POJAM #3:
+Tehnike inženjerstva upita.
+Koje su osnovne tehnike za inženjerstvo upita?
+Ilustrirati to s nekoliko vježbi.
 -->
 
-## Najbolje prakse za izradu upita
+## Najbolje prakse za upite
 
-Sad kad znamo kako se upiti _konstruraju_, možemo početi razmišljati o tome kako ih _dizajnirati_ da odražavaju najbolje prakse. To možemo promatrati u dva dijela – imati pravi _stav_ i primijeniti prave _tehnike_.
+Sada kada znamo kako se upiti mogu _konstruirati_, možemo početi razmišljati o tome kako ih _dizajnirati_ da odražavaju najbolje prakse. Možemo to razdvojiti na dva dijela – posjedovanje pravog _načina razmišljanja_ i primjena pravih _tehnika_.
 
-### Stav za inženjerstvo upita
+### Način razmišljanja o inženjerstvu upita
 
-Inženjerstvo upita je proces pokušaja i pogreške, pa imajte na umu tri široka smjernice:
+Inženjerstvo upita je proces pokušaja i pogreške pa imajte na umu tri široka vodeća faktora:
 
-1. **Razumijevanje domene je važno.** Točnost i relevantnost odgovora ovisi o _domeni_ u kojoj korisnik ili aplikacija djeluju. Primijenite intuiciju i stručnost za daljnju **personalizaciju tehnika**. Na primjer, definirajte _domenom specifične osobnosti_ u sustavnim upitima ili koristite _domenom specifične predloške_ u korisničkim upitima. Pružite sekundarni sadržaj koji odražava kontekst domene ili koristite _domenom specifične naznake i primjere_ za vođenje modela prema poznatim uzorcima korištenja.
+1. **Razumijevanje domena je važno.** Točnost i relevantnost odgovora ovisi o _domeni_ u kojoj ta aplikacija ili korisnik djeluju. Primijenite intuiciju i stručnost iz domene za daljnju **prilagodbu tehnika**. Na primjer, definirajte _osobnosti specifične za domenu_ u sustavnim upitima, ili koristite _predloške specifične za domenu_ u korisničkim upitima. Pružite sekundarni sadržaj koji odražava kontekste specifične za domenu, ili koristite _znakove i primjere specifične za domenu_ kako biste usmjerili model prema poznatim obrazcima upotrebe.
 
-2. **Razumijevanje modela je važno.** Znamo da su modeli po prirodi stohastički. No implementacije modela mogu se razlikovati po skupu podataka za treniranje (predtrenirano znanje), sposobnostima koje pružaju (npr. putem API-ja ili SDK-a) i tipu sadržaja za koji su optimizirani (npr. kod vs slike vs tekst). Razumite prednosti i ograničenja modela koji koristite i upotrijebite to znanje da _prioritizirate zadatke_ ili gradite _prilagođene predloške_ optimizirane za mogućnosti modela.
+2. **Razumijevanje modela je važno.** Znamo da su modeli prirodno stokastički. Ali implementacije modela mogu varirati u smislu skupa podataka za obuku koji koriste (predtrenirano znanje), sposobnosti koje nude (npr. preko API-ja ili SDK-a) i vrste sadržaja za koji su optimizirani (npr. kod, slike, tekst). Razumite prednosti i ograničenja modela koji koristite i upotrijebite to znanje da _prioritizirate zadatke_ ili napravite _prilagođene predloške_ optimizirane za mogućnosti modela.
 
-3. **Iteracija i provjera su važne.** Modeli brzo napreduju, kao i tehnike za inženjerstvo upita. Kao ekspert u domeni možda imate dodatni kontekst ili kriterije za _vašu_ specifičnu primjenu koji možda nisu primjenjivi široj zajednici. Koristite alate i tehnike za izradu upita za "brzi početak", zatim iterirajte i provjeravajte rezultate koristeći vlastitu intuiciju i znanja iz domene. Zapišite svoja saznanja i kreirajte **bazę znanja** (npr. biblioteke upita) koju drugi mogu koristiti kao novi osnovni presjek za brže iteracije u budućnosti.
+3. **Iteracija i validacija su važni.** Modeli se brzo razvijaju, kao i tehnike za inženjerstvo upita. Kao stručnjak u domeni, možda imate dodatni kontekst ili kriterije za _vašu_ specifičnu aplikaciju, koji možda ne vrijede za širu zajednicu. Koristite alate i tehnike inženjerstva upita za "brzi početak" konstrukcije upita, zatim iterirajte i validirajte rezultate koristeći vlastitu intuiciju i stručnost iz domene. Zabilježite svoja saznanja i stvorite **bazom znanja** (npr. knjižnice upita) koja drugi mogu koristiti kao novu osnovu za brže iteracije u budućnosti.
 
 ## Najbolje prakse
 
-Pogledajmo sada uobičajene najbolje prakse koje preporučuju [OpenAI](https://help.openai.com/en/articles/6654000-best-practices-for-prompt-engineering-with-openai-api?WT.mc_id=academic-105485-koreyst) i [Azure OpenAI](https://learn.microsoft.com/azure/ai-services/openai/concepts/prompt-engineering#best-practices?WT.mc_id=academic-105485-koreyst) stručnjaci.
+Pogledajmo sada uobičajene najbolje prakse koje preporučuju praktičari iz [OpenAI](https://help.openai.com/en/articles/6654000-best-practices-for-prompt-engineering-with-openai-api?WT.mc_id=academic-105485-koreyst) i [Azure OpenAI](https://learn.microsoft.com/azure/ai-services/openai/concepts/prompt-engineering#best-practices?WT.mc_id=academic-105485-koreyst).
 
-| Što                               | Zašto                                                                                                                                                                                                                                          |
-| :-------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Procijenite najnovije modele.     | Nove generacije modela vjerojatno imaju poboljšane značajke i kvalitetu – ali mogu i imati veće troškove. Procijenite njihov utjecaj, pa donesite odluku o migraciji.                                                                           |
-| Razdvojite upute i kontekst       | Provjerite koristi li vaš model/ponuditelj _graničnike_ za jasnije razlikovanje uputa, primarnog i sekundarnog sadržaja. To pomaže modelima da točnije dodijele težinu tokenima.                                                            |
-| Budite precizni i jasni            | Dajte više detalja o željenom kontekstu, rezultatu, duljini, formatu, stilu itd. To poboljšava i kvalitetu i dosljednost odgovora. Primjere spremite u upotrebljive predloške.                                                               |
-| Budite opisni, koristite primjere  | Modeli bolje reagiraju na pristup "pokaži i reci". Počnite s pristupom bez primjera, zatim isprobajte s nekoliko primjera za rafiniranje. Koristite analogije.                                                                                |
-| Koristite naznake za pokretanje dovršetaka | Usmjerite model prema željenom rezultatu tako da ponudite neke uvodne riječi ili fraze koje može upotrijebiti kao početak odgovora.                                                                                                            |
-| Ponavljajte                        | Ponekad je potrebno modelu ponoviti uputu. Dajte upute prije i poslije primarnog sadržaja, upotrijebite uputu i naznaku itd. Iterirajte i provjeravajte što najbolje funkcionira.                                                               |
-| Redoslijed je važan               | Redoslijed kojim pružate informacije modelu može utjecati na rezultat, čak i u primjerima učenja, zbog pristranosti prema nedavnom sadržaju. Isprobajte različite opcije da vidite što najbolje radi.                                         |
-| Dajte modelu “izlaz”              | Omogućite modelu rezultat za _povratni_ odgovor koji može dati ako iz bilo kojeg razloga ne može dovršiti zadatak. Time se smanjuju šanse za lažne ili izmišljene odgovore.                                                                      |
-|                                  |                                                                                                                                                                                                                                                |
+| Što                              | Zašto                                                                                                                                                                                                                                               |
+| :-------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Procijenite najnovije modele.      | Nove generacije modela vjerojatno imaju poboljšane značajke i kvalitetu - ali mogu donijeti i veće troškove. Procijenite njihov utjecaj, zatim donesite odluke o migraciji.                                                                                |
+| Razdvojite upute i kontekst       | Provjerite definiraju li vaš model/izdavač _graničnike_ za jasnije razlikovanje uputa, primarnog i sekundarnog sadržaja. To može pomoći modelima da točnije dodijele težinu tokenima.                                                         |
+| Budite konkretni i jasni           | Dajte više detalja o željenom kontekstu, ishodu, duljini, formatu, stilu itd. To će poboljšati kvalitetu i dosljednost odgovora. Zabilježite recepte u ponovo upotrebljive predloške.                                                          |
+| Budite opisni, koristite primjere  | Modeli mogu bolje odgovoriti na pristup "pokaži i reci". Počnite s `zero-shot` pristupom gdje date uputu (bez primjera), zatim isprobajte `few-shot` kao doradu, dajući nekoliko primjera željenog izlaza. Koristite analogije. |
+| Koristite poticaje za pokretanje ispuna | Usmjerite model prema željenom ishodu dajući mu neke vodeće riječi ili izraze koje može koristiti kao početnu točku za odgovor.                                                                                                               |
+| Ponavljajte                        | Ponekad je potrebno ponoviti upute modelu. Dajte upute prije i poslije primarnog sadržaja, koristite uputu i poticaj itd. Iterirajte i validirajte da biste vidjeli što najbolje funkcionira.                                                         |
+| Redoslijed je važan               | Redoslijed u kojem prezentirate informacije modelu može utjecati na ishod, čak i u učnim primjerima, zahvaljujući sklonom povijesti (recency bias). Isprobajte različite opcije da vidite što najbolje radi.                                                               |
+| Dajte modelu "izlaznu strategiju"           | Dajte modelu _rezervni_ odgovor koji može pružiti ako iz bilo kojeg razloga ne može dovršiti zadatak. Ovo može smanjiti mogućnost da modeli generiraju netočne ili izmišljene odgovore.                                                         |
+|                                   |                                                                                                                                                                                                                                                   |
 
-Kao i kod svake najbolje prakse, imajte na umu da _vaši rezultati mogu varirati_ ovisno o modelu, zadatku i domeni. Iskoristite ove smjernice kao polaznu točku, te iterirajte da pronađete što najbolje za vas funkcionira. Kontinuirano ponovno procjenjujte svoj proces inženjerstva upita kako bi pratili nove modele i alate u cilju skalabilnosti procesa i kvalitete odgovora.
+Kao i kod svake najbolje prakse, imajte na umu da _rezultati mogu varirati_ ovisno o modelu, zadatku i domeni. Koristite ove smjernice kao početnu točku i iterirajte da pronađete što najbolje funkcionira za vas. Stalno preispitujte svoj proces inženjerstva upita kako se pojavljuju novi modeli i alati, s fokusom na skalabilnost procesa i kvalitetu odgovora.
 
 <!--
-LESSON TEMPLATE:
-Ovaj odjeljak treba pružiti zadatak s kodom ako je primjenjivo
+PREDLOŽAK LEKCIJE:
+Ovaj odjeljak treba pružiti izazov u kodiranju ako je primjenjivo
 
 IZAZOV:
-Veza na Jupyter Notebook s samo komentarima u uputama (kodni dijelovi su prazni).
+Poveznica na Jupyter bilježnicu s komentarima u kodu u uputama (odjeljci koda su prazni).
 
 RIJEŠENJE:
-Veza na kopiju tog Notebooka s popunjenim upitima i pokrenutim, gdje se vidi jedan primjer rješenja.
+Poveznica na kopiju te bilježnice gdje su upiti popunjeni i izvršeni, pokazujući jedan mogući primjer.
 -->
 
 ## Zadatak
 
-Čestitamo! Stigli ste do kraja lekcije! Vrijeme je da neke od ovih koncepata i tehnika stavite na probu s pravim primjerima!
+Čestitamo! Stigli ste do kraja lekcije! Vrijeme je da neke od tih koncepata i tehnika isprobate na stvarnim primjerima!
 
-Za naš zadatak koristit ćemo Jupyter Notebook s vježbama koje možete riješiti interaktivno. Također možete proširiti Notebook vlastitim Markdown i Kod ćelijama za istraživanje ideja i tehnika.
+Za naš zadatak koristit ćemo Jupyter bilježnicu s vježbama koje možete interaktivno dovršavati. Također možete proširiti bilježnicu vlastitim Markdown i kod ćelijama kako biste istražili ideje i tehnike samostalno.
 
-### Za početak, izradite fork repozitorija, zatim
+### Za početak, raskopirajte repozitorij, zatim
 
 - (Preporučeno) Pokrenite GitHub Codespaces
-- (Alternativno) Klonirajte repozitorij na lokalno računalo i koristite s Docker Desktopom
-- (Alternativno) Otvorite Notebook u željenom okruženju za izvršavanje notebooka.
+- (Alternativno) Klonirajte repozitorij na svoj lokalni uređaj i koristite ga s Docker Desktopom
+- (Alternativno) Otvorite bilježnicu u željenom okruženju za pokretanje bilježnica.
 
-### Zatim konfigurirajte svoje varijable okruženja
+### Zatim konfigurirajte svoje varijable okoline
 
-- Kopirajte datoteku `.env.copy` iz korijena repozitorija u `.env` i ispunite vrijednosti `AZURE_OPENAI_API_KEY`, `AZURE_OPENAI_ENDPOINT` i `AZURE_OPENAI_DEPLOYMENT`. Vratite se na [dio Learning Sandbox](../../../04-prompt-engineering-fundamentals) kako biste saznali kako.
+- Kopirajte datoteku `.env.copy` u korijenu repozitorija u `.env` i unesite vrijednosti za `AZURE_OPENAI_API_KEY`, `AZURE_OPENAI_ENDPOINT` i `AZURE_OPENAI_DEPLOYMENT`. Vratite se na [Learning Sandbox odjeljak](#okruženje-za-učenje) za upute kako.
 
-### Otvorite Jupyter Notebook
+### Zatim otvorite Jupyter bilježnicu
 
-- Odaberite runtime kernel. Ako koristite 1. ili 2. opciju, jednostavno odaberite zadani Python 3.10.x kernel koji pruža razvojno okruženje.
+- Odaberite runtime kernel. Ako koristite opciju 1 ili 2, jednostavno odaberite zadani Python 3.10.x kernel koji pruža razvojno okruženje kontejnera.
 
-Spremni ste za izvođenje vježbi. Imajte na umu da nema _ispravnih ili pogrešnih_ odgovora – samo istražujete mogućnosti pokušajem i pogreškom te razvijate intuiciju za ono što funkcionira za dani model i domenu.
+Spremni ste za pokretanje vježbi. Imajte na umu da ovdje nema _pravih ili pogrešnih_ odgovora - samo istraživanje opcija metodom pokušaja i pogreške te razvoj intuicije što funkcionira za određeni model i domen.
 
-_Za ovaj razlog nema segmenata s rješenjima koda u ovoj lekciji. Umjesto toga, Notebook će imati Markdown ćelije naslova "Moje rješenje:" koje prikazuju jedan primjer izlaza za referencu._
+_Iz tog razloga u ovoj lekciji nema segmenata s rješenjima koda. Umjesto toga, bilježnica će imati Markdown ćelije pod nazivom "Moje rješenje:" koje prikazuju jedan primjer izlaza kao referencu._
 
  <!--
-LESSON TEMPLATE:
-Zaokružite odjeljak sažetkom i resursima za samostalno učenje.
+PREDLOŽAK LEKCIJE:
+Zaokružite odjeljak sa sažetkom i resursima za samostalno učenje.
 -->
 
 ## Provjera znanja
 
-Koji od sljedećih upita slijedi razumne najbolje prakse?
+Koji od sljedećih upita je dobar i slijedi neke razumne najbolje prakse?
 
-1. Prikaži mi sliku crvenog auta
-2. Prikaži mi sliku crvenog auta marke Volvo i modela XC90 parkiranog kraj litice s zalaskom sunca
-3. Prikaži mi sliku crvenog auta marke Volvo i modela XC90
+1. Pokaži mi sliku crvenog auta
+2. Pokaži mi sliku crvenog auta marke Volvo i modela XC90 parkiranog kraj litice uz zalazak sunca
+3. Pokaži mi sliku crvenog auta marke Volvo i modela XC90
 
-Odgovor: 2 je najbolji upit jer pruža detalje o "čemu" i ide u specifičnosti (ne samo bilo koji auto, nego određena marka i model) te opisuje cjelokupni ambijent. 3 je sljedeći najbolji jer također sadrži mnogo opisa.
+A: 2, to je najbolji upit jer daje detalje o "što" i ide u pojedinosti (ne bilo koji auto već specifičnu marku i model) te također opisuje cjelokupni ambijent. 3 je sljedeći najbolji jer sadrži puno opisa.
 
 ## 🚀 Izazov
 
-Pokušajte iskoristiti tehniku "naznake" s upitom: Dovrši rečenicu "Prikaži mi sliku crvenog auta marke Volvo i ". Što odgovara i kako biste ga poboljšali?
+Pokušajte iskoristiti tehniku "poticaja" s upitom: Dovrši rečenicu "Pokaži mi sliku crvenog auta marke Volvo i ". Što odgovara i kako biste to poboljšali?
 
-## Odlično! Nastavite s učenjem
+## Odličan posao! Nastavite s učenjem
 
-Želite li naučiti više o različitim konceptima Inženjerstva upita? Posjetite [stranicu za daljnje učenje](https://aka.ms/genai-collection?WT.mc_id=academic-105485-koreyst) za druge odlične izvore o ovoj temi.
+Želite li saznati više o različitim konceptima inženjerstva upita? Posjetite [stranicu za daljnje učenje](https://aka.ms/genai-collection?WT.mc_id=academic-105485-koreyst) za ostale odlične resurse na ovu temu.
 
-Krenite na Lekciju 5 gdje ćemo pogledati [napredne tehnike promptanja](../05-advanced-prompts/README.md?WT.mc_id=academic-105485-koreyst)!
+Idite na Lekciju 5 gdje ćemo pogledati [napredne tehnike upita](../05-advanced-prompts/README.md?WT.mc_id=academic-105485-koreyst)!
 
 ---
 
 <!-- CO-OP TRANSLATOR DISCLAIMER START -->
-**Odricanje od odgovornosti**:
-Ovaj dokument preveden je korištenjem AI usluge za prijevod [Co-op Translator](https://github.com/Azure/co-op-translator). Iako težimo točnosti, molimo imajte na umu da automatski prijevodi mogu sadržavati pogreške ili netočnosti. Izvorni dokument na izvornom jeziku treba smatrati autoritativnim izvorom. Za kritične informacije preporučuje se profesionalni ljudski prijevod. Nismo odgovorni za bilo kakve nesporazume ili pogrešne interpretacije koje proizlaze iz korištenja ovog prijevoda.
+**Napomena**:
+Ovaj dokument je preveden korištenjem AI prevoditeljskog servisa [Co-op Translator](https://github.com/Azure/co-op-translator). Iako težimo točnosti, imajte na umu da automatski prijevodi mogu sadržavati greške ili netočnosti. Izvorni dokument na izvornom jeziku treba smatrati autoritativnim izvorom. Za važne informacije preporuča se profesionalni ljudski prijevod. Nismo odgovorni za bilo kakva nesporazumevanja ili pogrešne interpretacije koje proizlaze iz korištenja ovog prijevoda.
 <!-- CO-OP TRANSLATOR DISCLAIMER END -->

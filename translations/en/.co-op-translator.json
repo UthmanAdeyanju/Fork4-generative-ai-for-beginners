@@ -42,8 +42,8 @@
     "language_code": "en"
   },
   "04-prompt-engineering-fundamentals/README.md": {
-    "original_hash": "28e5f65560fd43a26a7fa45d558f8fac",
-    "translation_date": "2026-02-16T12:10:17+00:00",
+    "original_hash": "600e1c6b7a9f95fe929e6399c78bf1ad",
+    "translation_date": "2026-06-08T10:35:28+00:00",
     "source_file": "04-prompt-engineering-fundamentals/README.md",
     "language_code": "en"
   },
@@ -214,6 +214,19 @@
     "translation_date": "2025-07-09T06:50:04+00:00",
     "source_file": "SECURITY.md",
     "language_code": "en"
+  },
+  "__translation_failures__": {
+    "05-advanced-prompts/README.md": {
+      "original_hash": "b2651fb16bcfbc62b8e518751ed90fdb",
+      "source_file": "05-advanced-prompts/README.md",
+      "language_code": "en",
+      "failure_date": "2026-07-08T14:48:46+00:00",
+      "status": "failed",
+      "error_type": "TranslationContentFilterError",
+      "error_message": "Provider blocked markdown translation at prompt 1/2 because finish_reason was 'content_filter'.",
+      "translator_version": "0.20.0",
+      "failure_policy_version": 1
+    }
   },
   "docs/ENHANCED_FEATURES_ROADMAP.md": {
     "original_hash": "43fe261ba7a54e891e489255201c9253",

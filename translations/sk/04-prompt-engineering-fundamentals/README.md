@@ -1,143 +1,143 @@
-# Základy tvorby promptov
+# Základy návrhu promptov
 
-[![Základy tvorby promptov](../../../translated_images/sk/04-lesson-banner.a2c90deba7fedacd.webp)](https://youtu.be/GElCu2kUlRs?si=qrXsBvXnCW12epb8)
+[![Základy návrhu promptov](../../../translated_images/sk/04-lesson-banner.a2c90deba7fedacd.webp)](https://youtu.be/GElCu2kUlRs?si=qrXsBvXnCW12epb8)
 
 ## Úvod
-Tento modul pokrýva základné koncepty a techniky pre vytváranie efektívnych promptov v generatívnych AI modeloch. Spôsob, akým napíšete svoj prompt pre LLM, je tiež dôležitý. Starostlivo zostavený prompt môže dosiahnuť lepšiu kvalitu odpovede. Ale čo presne znamenajú pojmy ako _prompt_ a _tvorba promptov_? A ako môžem zlepšiť prompt _vstup_, ktorý posielam LLM? Na tieto otázky sa pokúsime odpovedať v tejto kapitole a nasledujúcej.
+Tento modul pokrýva základné koncepty a techniky pre tvorbu efektívnych promptov v generatívnych AI modeloch. Spôsob, akým napíšete prompt pre LLM, tiež záleží. Starostlivo vytvorený prompt môže dosiahnuť lepšiu kvalitu odpovede. Ale čo presne znamenajú pojmy ako _prompt_ a _prompt engineering_? A ako zlepšiť _vstup_ promptu, ktorý posielam LLM? Na tieto otázky sa pokúsime odpovedať v tejto kapite a ďalšej.
 
-_Generatívna AI_ je schopná vytvárať nový obsah (napríklad text, obrázky, zvuk, kód a pod.) v reakcii na požiadavky používateľov. Dosahuje to pomocou _veľkých jazykových modelov_ ako séria GPT od OpenAI („Generative Pre-trained Transformer“), ktoré sú trénované na používanie prirodzeného jazyka a kódu.
+_Generatívna AI_ je schopná vytvárať nový obsah (napr. text, obrázky, zvuk, kód atď.) ako odpoveď na požiadavky používateľa. Dosahuje to pomocou _Veľkých jazykových modelov_ (Large Language Models), ako je séria GPT od OpenAI ("Generative Pre-trained Transformer"), ktoré sú trénované na prácu s prirodzeným jazykom a kódom.
 
-Používatelia môžu teraz s týmito modelmi interagovať pomocou známych paradigiem, ako je chat, bez potreby technických znalostí alebo školenia. Modely sú _promptovo založené_ – používatelia posielajú textový vstup (prompt) a dostanú späť AI odpoveď (doplnenie). Potom môžu „konverzovať s AI“ iteratívne, v niekoľkých kolách, zjemňovať svoj prompt, až kým odpoveď nebude vyhovovať ich očakávaniam.
+Používatelia teraz môžu komunikovať s týmito modelmi pomocou známych spôsobov ako chat bez potreby technických znalostí alebo školenia. Modely sú _promptové_ - používatelia posielajú textový vstup (prompt) a dostávajú späť AI odpoveď (dokončenie). Následne môžu "chatovať s AI" opakovane v niekoľkonásobných výmenách, dolaďovať prompt, kým odpoveď nesplní ich očakávania.
 
-„Prompty“ sa tak stávajú primárnym _programovacím rozhraním_ pre generatívne AI aplikácie, ktoré modelom hovoria, čo majú robiť, a ovplyvňujú kvalitu vrátených odpovedí. „Tvorba promptov“ je rýchlo rastúca študijná oblasť, ktorá sa zameriava na _návrh a optimalizáciu_ promptov, aby sa dodávali konzistentné a kvalitné odpovede v škálovateľnom rozsahu.
+"Prompty" sa tak stávajú primárnym _programovacím rozhraním_ pre generatívne AI aplikácie, ktoré modelom hovoria, čo majú robiť a ovplyvňujú kvalitu vrátených odpovedí. "Prompt Engineering" je rýchlo rastúca oblasť štúdia, ktorá sa zameriava na _navrhovanie a optimalizáciu_ promptov pre dosiahnutie konzistentných a kvalitných odpovedí vo veľkom rozsahu.
 
 ## Ciele učenia
 
-V tejto lekcii sa naučíme, čo je tvorba promptov, prečo je dôležitá a ako môžeme vytvárať efektívnejšie prompty pre daný model a cieľ aplikácie. Pochopíme základné koncepty a najlepšie postupy tvorby promptov – a zoznámime sa s interaktívnym prostredím Jupyter Notebooks „sandbox“, kde môžeme vidieť tieto koncepty aplikované na reálne príklady.
+V tejto lekcii sa naučíme, čo je Prompt Engineering, prečo je dôležitý a ako môžeme vytvárať efektívnejšie prompty pre daný model a cieľ aplikácie. Pochopíme základné koncepty a osvedčené postupy pri návrhu promptov - a zoznámime sa s interaktívnym prostredím Jupyter Notebooks "pieskovisko", kde môžeme vidieť tieto koncepty na reálnych príkladoch.
 
-Na konci tejto lekcie budeme vedieť:
+Na konci lekcie budeme schopní:
 
-1. Vysvetliť, čo je tvorba promptov a prečo je dôležitá.
-2. Popísať komponenty promptu a ich využitie.
-3. Naučiť sa najlepšie postupy a techniky tvorby promptov.
-4. Aplikovať naučené techniky na reálne príklady pomocou OpenAI endpointu.
+1. Vysvetliť, čo je prompt engineering a prečo je dôležitý.
+2. Opísať jednotlivé komponenty promptu a ich použitie.
+3. Naučiť sa najlepšie praktiky a techniky pre prompt engineering.
+4. Použiť naučené techniky na reálne príklady pomocou OpenAI endpointu.
 
 ## Kľúčové pojmy
 
-Tvorba promptov: Prax navrhovania a zdokonaľovania vstupov na vedenie AI modelov k požadovaným výstupom.
+Prompt Engineering: Prax navrhovania a doladenia vstupov na usmernenie AI modelov k produkcii požadovaných výstupov.
+Tokenizácia: Proces prevedenia textu na menšie jednotky, nazývané tokeny, ktoré model dokáže spracovať a pochopiť.
+Instruction-Tuned LLMs: Veľké jazykové modely (LLM), ktoré boli doladené na základe špecifických inštrukcií pre zlepšenie presnosti a relevantnosti odpovedí.
 
-Tokenizácia: Proces rozdelenia textu na menšie jednotky, nazývané tokeny, ktoré model dokáže pochopiť a spracovať.
+## Sandbox na učenie sa
 
-Inštrukčne ladené LLM: Veľké jazykové modely (LLM), ktoré boli doladené špecifickými inštrukciami za účelom zlepšenia presnosti a relevantnosti odpovedí.
+Prompt engineering je v súčasnosti viac umením ako vedou. Najlepší spôsob, ako zlepšiť našu intuíciu, je _viac praxe_ a adopcia prístupu pokus-omyl, ktorý kombinuje odborné znalosti z oblasti aplikácií s odporúčanými technikami a modelovo-špecifickými optimalizáciami.
 
-## Sandbox na učenie
+K tomuto kurzu patrí Jupyter Notebook, ktorý poskytuje _pieskoviskové_ prostredie, kde môžete skúšať to, čo sa naučíte - priebežne alebo ako súčasť kódovej výzvy na konci. Na spustenie cvičení budete potrebovať:
 
-Tvorba promptov je v súčasnosti viac umením než vedou. Najlepším spôsobom, ako si zlepšiť intuíciu, je _praktizovať viac_ a prijať prístup pokusu a omylu, ktorý spája odbornosť v danej oblasti aplikácie s odporúčanými technikami a optimalizáciami špecifickými pre model.
+1. **Kľúč API Azure OpenAI** - služobný endpoint pre nasadený LLM.
+2. **Python Runtime** - v ktorom sa notebook spustí.
+3. **Lokálne premenné prostredia** - _dokončite teraz kroky v [SETUP](./../00-course-setup/02-setup-local.md?WT.mc_id=academic-105485-koreyst), aby ste boli pripravení_.
 
-Jupyter Notebook, ktorý sprevádza túto lekciu, poskytuje _sandbox_ prostredie, kde si môžete vyskúšať, čo ste sa naučili – priamo počas štúdia alebo ako súčasť záverečnej úlohy. Na vykonanie cvičení budete potrebovať:
-
-1. **Kľúč API Azure OpenAI** – služobný endpoint pre nasadený LLM.
-2. **Python Runtime** – v ktorom je možné Notebook spustiť.
-3. **Lokálne premenné prostredia** – _teraz dokončite kroky [Nastavenia](./../00-course-setup/02-setup-local.md?WT.mc_id=academic-105485-koreyst), aby ste boli pripravení_.
-
-Notebook prichádza s _začiatočnými_ cvičeniami – ale ste povzbudzovaní pridať si vlastné časti _Markdown_ (popis) a _Kód_ (požiadavky promptov), aby ste si mohli vyskúšať viac príkladov alebo nápadov a rozvíjať intuitívne zručnosti návrhu promptov.
+Notebook obsahuje _štartovacie_ cvičenia - no odporúča sa pridávať vlastné sekcie s _Markdown_ (popisom) a _Kódom_ (prompt požiadavky) na skúšanie ďalších príkladov alebo nápadov a budovanie intuície pre návrh promptov.
 
 ## Ilustrovaný sprievodca
 
-Chcete získať veľký prehľad o tom, čo táto lekcia pokrýva, ešte pred tým, než sa do nej pustíte? Pozrite si tento ilustrovaný sprievodca, ktorý vám poskytne prehľad o hlavnej téme a kľúčových bodoch na zamyslenie v každom z nich. Plán lekcie vás prevedie od pochopenia základných konceptov a výziev po ich riešenie pomocou relevantných techník a najlepších postupov tvorby promptov. Upozorňujeme, že sekcia „Pokročilé techniky“ v tomto sprievodcovi sa vzťahuje na obsah pokrytý v _nasledujúcej_ kapitole tohto učebného plánu.
+Chcete získať celkový prehľad o tom, čo táto lekcia pokrýva skôr, než sa pustíte do detailov? Pozrite si tento ilustrovaný sprievodca, ktorý vám poskytne prehľad hlavných tém a kľúčových bodov na zamyslenie pre každú. Plán lekcie vás prevedie od pochopenia základných konceptov a výziev až po riešenie pomocou relevantných techník a osvedčených postupov prompt engineeringu. Upozorňujeme, že časť "Pokročilé techniky" v tomto sprievodcovi odkazuje na obsah pokrytý v _nasledujúcej_ kapitole tohto kurikula.
 
-![Ilustrovaný sprievodca tvorbou promptov](../../../translated_images/sk/04-prompt-engineering-sketchnote.d5f33336957a1e4f.webp)
+![Ilustrovaný sprievodca návrhom promptov](../../../translated_images/sk/04-prompt-engineering-sketchnote.d5f33336957a1e4f.webp)
 
-## Naš startup
+## Naša startupová misia
 
-Teraz si povedzme, ako sa _táto téma_ vzťahuje k nášmu startupu so zámerom [priniesť AI inovácie do vzdelávania](https://educationblog.microsoft.com/2023/06/collaborating-to-bring-ai-innovation-to-education?WT.mc_id=academic-105485-koreyst). Chceme budovať AI-poháňané aplikácie _personalizovaného učenia_ – tak si premyslime, ako by rôzni používatelia našej aplikácie mohli „navrhovať“ prompty:
+Teraz si povedzme, ako sa _táto téma_ týka našej startupovej misie prinášať [inovácie AI do vzdelávania](https://educationblog.microsoft.com/2023/06/collaborating-to-bring-ai-innovation-to-education?WT.mc_id=academic-105485-koreyst). Chceme vytvárať AI-poháňané aplikácie pre _personalizované učenie_ - premýšľajme teda o tom, ako môžu rôzni používatelia našej aplikácie "navrhovať" prompty:
 
-- **Administrátori** môžu požiadať AI o _analýzu dát kurikula na identifikáciu medzier vo výučbe_. AI môže zhrnúť výsledky alebo ich vizualizovať pomocou kódu.
-- **Učitelia** môžu požiadať AI o _generovanie plánu lekcie pre cieľové publikum a tému_. AI môže zostaviť personalizovaný plán vo vopred určenom formáte.
-- **Študenti** môžu požiadať AI o _doučovanie v zložitej téme_. AI môže teraz viesť študentov pomocou lekcií, nápoved a príkladov prispôsobených ich úrovni.
+- **Administrátori** môžu požiadať AI o _analýzu dát učebných osnov s cieľom identifikovať medzery v pokrytí_. AI môže zhrnúť výsledky alebo ich vizualizovať s kódom.
+- **Učitelia** môžu požiadať AI, aby _generovala plán hodiny pre cieľové publikum a tému_. AI môže zostaviť personalizovaný plán v zadanom formáte.
+- **Študenti** môžu požiadať AI, aby ich _doučovala v náročnom predmete_. AI môže teraz viesť študentov prostredníctvom lekcií, nápovedy a príkladov prispôsobených ich úrovni.
 
-To je len špička ľadovca. Pozrite si [Prompty pre vzdelávanie](https://github.com/microsoft/prompts-for-edu/tree/main?WT.mc_id=academic-105485-koreyst) – open-source knižnicu promptov zostavenú vzdelávacími expertmi – aby ste získali širší prehľad o možnostiach! _Skúste spustiť niektoré z týchto promptov v sandboxe alebo pomocou OpenAI Playground a pozrite, čo sa stane!_
+To je len špička ľadovca. Pozrite sa na [Prompts For Education](https://github.com/microsoft/prompts-for-edu/tree/main?WT.mc_id=academic-105485-koreyst) - open-source knižnicu promptov zostavenú odborníkmi na vzdelávanie - pre širší prehľad možností! _Vyskúšajte spustiť niektoré z týchto promptov v pieskovisku alebo v OpenAI Playground, aby ste videli výsledky!_
 
 <!--
-LESSON TEMPLATE:
+ŠABLÓNA LEKCIE:
 Táto jednotka by mala pokrývať základný koncept č. 1.
-Posilniť koncept príkladmi a odkazmi.
+Konzistentne posilnite koncept príkladmi a odkazmi.
 
 KONCEPT č. 1:
-Tvorba promptov.
-Definujte to a vysvetlite, prečo je to potrebné.
+Prompt Engineering.
+Definujte a vysvetlite, prečo je potrebný.
 -->
 
-## Čo je tvorba promptov?
+## Čo je Prompt Engineering?
 
-Lekciu sme začali definovaním **tvorby promptov** ako procesu _navrhovania a optimalizácie_ textových vstupov (promptov) na dosiahnutie konzistentných a kvalitných odpovedí (doplnení) pre daný cieľ aplikácie a model. Môžeme to považovať za dvojkrokový proces:
+Lekciu sme začali definíciou **Prompt Engineering** ako procesu _navrhovania a optimalizácie_ textových vstupov (promptov), aby priniesli konzistentné a kvalitné odpovede (dokončenia) pre daný cieľ aplikácie a modelu. Môžeme to vnímať ako dvojstupňový proces:
 
 - _navrhnúť_ počiatočný prompt pre daný model a cieľ
-- _iteratívne vylepšovať_ prompt na zlepšenie kvality odpovede
+- _dolaďovať_ prompt iteratívne pre zlepšenie kvality odpovede
 
-Je to nevyhnutne proces pokusu a omylu, ktorý vyžaduje intuíciu používateľa a úsilie na dosiahnutie optimálnych výsledkov. Prečo je to teda dôležité? Aby sme odpovedali na túto otázku, musíme najskôr pochopiť tri pojmy:
+Ide o skúšobný proces, ktorý si vyžaduje užívateľskú intuíciu a úsilie na dosiahnutie optimálnych výsledkov. Prečo je to teda dôležité? Najprv musíme pochopiť tri koncepty:
 
-- _tokenizácia_ = ako model „vidí“ prompt
-- _základné LLM_ = ako základný model „spracúva“ prompt
-- _inštrukčne ladené LLM_ = ako model teraz môže vidieť „úlohy“
+- _Tokenizácia_ = ako model "vidí" prompt
+- _Základné LLM_ = ako základný model spracováva prompt
+- _Instruction-Tuned LLMs_ = ako model teraz chápe "úlohy"
 
 ### Tokenizácia
 
-LLM vidí prompt ako _sekvenciu tokenov_, kde rôzne modely (alebo verzie modelu) môžu ten istý prompt tokenizovať rôznymi spôsobmi. Keďže LLM sú trénované na tokenoch (a nie na surovom texte), spôsob, akým sa prompty tokenizujú, má priamy vplyv na kvalitu vytvorenej odpovede.
+LLM vidí prompt ako _sekvenciu tokenov_, kde rôzne modely (alebo verzie modelu) môžu rovnaký prompt tokenizovať rôznymi spôsobmi. Keďže LLM sú trénované na tokenoch (a nie na surovom texte), spôsob tokenizácie promptov priamo ovplyvňuje kvalitu generovanej odpovede.
 
-Pre lepšiu predstavu o tom, ako tokenizácia funguje, skúste nástroje ako [OpenAI Tokenizer](https://platform.openai.com/tokenizer?WT.mc_id=academic-105485-koreyst) uvedený nižšie. Skopírujte tam svoj prompt a pozrite sa, ako sa premení na tokeny, venujte pozornosť tomu, ako sa spracovávajú medzery a interpunkcia. Upozorňujeme, že tento príklad ukazuje starší LLM (GPT-3) – skúsenosť s novším modelom môže viesť k inému výsledku.
+Na získanie intuície o tokenizácii skúste nástroje ako [OpenAI Tokenizer](https://platform.openai.com/tokenizer?WT.mc_id=academic-105485-koreyst), viditeľný nižšie. Skopírujte svoj prompt a pozrite sa, ako je konvertovaný na tokeny, venujte pozornosť, ako sa spracovávajú medzery a interpunkčné znamienka. Tento príklad ukazuje starší model LLM (GPT-3) - pokus s novším modelom môže priniesť iný výsledok.
 
 ![Tokenizácia](../../../translated_images/sk/04-tokenizer-example.e71f0a0f70356c5c.webp)
 
-### Koncept: Základné modely
+### Koncept: Základné modely (Foundation Models)
 
-Keď je prompt tokenizovaný, primárnou funkciou ["základného LLM"](https://blog.gopenai.com/an-introduction-to-base-and-instruction-tuned-large-language-models-8de102c785a6?WT.mc_id=academic-105485-koreyst) (alebo základného modelu) je predpovedať token v tejto sekvencii. Keďže LLM sú trénované na obrovských textových datasetoch, majú dobré povedomie o štatistických vzťahoch medzi tokenmi a dokážu túto predpoveď vykonať s istou mierou istoty. Upozorňujeme, že nerozumejú _významu_ slov v promte alebo tokene; vidia len vzor, ktorý môžu „doplniť“ ďalšou predpoveďou. Môžu pokračovať v predpovedaní sekvencie, až kým ich nezastaví zásah používateľa alebo nejaká vopred stanovená podmienka.
+Po tokenizácii promptu je primárnou úlohou ["Base LLM"](https://blog.gopenai.com/an-introduction-to-base-and-instruction-tuned-large-language-models-8de102c785a6?WT.mc_id=academic-105485-koreyst) (alebo základného modelu) predpovedať ďalší token v sekvencii. Pretože LLM sú trénované na obrovských dátových množinách textu, majú dobrý prehľad o štatistických vzťahoch medzi tokenmi a môžu túto predpoveď urobiť s istotou. Nechápu však _význam_ slov v texte alebo tokenoch; vidia len vzor, ktorý môžu "dopĺňať" ďalšou predpoveďou. Pokračujú v predpovedaní sekvencie, kým nie sú zastavení zásahom používateľa alebo nejakou prednastavenou podmienkou.
 
-Chcete vidieť, ako funguje doplnenie na základe promptu? Vložte vyššie uvedený prompt do Azure OpenAI Studio [_Chat Playground_](https://oai.azure.com/playground?WT.mc_id=academic-105485-koreyst) so štandardným nastavením. Systém je nastavený tak, aby považoval prompty za požiadavky na informácie – takže by ste mali vidieť doplnenie, ktoré vyhovuje tomuto kontextu.
+Chcete vidieť, ako funguje dopĺňanie na základe promptu? Zadajte vyššie uvedený prompt do [Microsoft Foundry playground](https://ai.azure.com?WT.mc_id=academic-105485-koreyst) s predvolenými nastaveniami. Systém má nastavenie tak, aby prijímal prompty ako požiadavky na informácie - takže by ste mali vidieť doplnenie uspokojujúce tento kontext.
 
-Ale čo keď používateľ chce vidieť niečo konkrétne, čo vyhovuje určitým kritériám alebo cieľu úlohy? Práve tu prichádzajú do hry _inštrukčne ladené_ LLM.
+Ale čo ak chce používateľ vidieť niečo konkrétne, čo spĺňa nejaké kritériá alebo cieľ úlohy? Tu prichádzajú do hry _Instruction-Tuned_ LLM.
 
-![Base LLM Chat Completion](../../../translated_images/sk/04-playground-chat-base.65b76fcfde0caa67.webp)
+![Dopĺňanie chat s Base LLM](../../../translated_images/sk/04-playground-chat-base.65b76fcfde0caa67.webp)
 
-### Koncept: Inštrukčne ladené LLM
+### Koncept: Instruction Tuned LLMs
 
-[Inštrukčne ladený LLM](https://blog.gopenai.com/an-introduction-to-base-and-instruction-tuned-large-language-models-8de102c785a6?WT.mc_id=academic-105485-koreyst) začína so základným modelom a doladí ho pomocou príkladov alebo vstupno-výstupných párov (napr. viackolové „správy“), ktoré môžu obsahovať jasné inštrukcie – a odpoveď AI sa snaží túto inštrukciu dodržať.
+[Instruction Tuned LLM](https://blog.gopenai.com/an-introduction-to-base-and-instruction-tuned-large-language-models-8de102c785a6?WT.mc_id=academic-105485-koreyst) vychádza zo základného modelu a doladí ho na základe príkladov alebo párov vstup/výstup (napr. viackolové "správy"), ktoré môžu obsahovať jasné inštrukcie - a AI sa snaží na túto inštrukciu reagovať.
 
-Používa techniky ako Reinforcement Learning with Human Feedback (RLHF), ktoré môžu trénovať model na _dodržiavanie inštrukcií_ a _učiť sa z spätnej väzby_, aby produkoval odpovede, ktoré sú praktickejšie a viac relevantné pre cieľ používateľa.
+Používa techniky ako Reinforcement Learning s ľudskou spätnou väzbou (RLHF), ktoré model naučia _dodržiavať pokyny_ a _učiť sa zo spätnej väzby_, aby produkoval odpovede lepšie prispôsobené praktickým aplikáciám a viac relevantné pre používateľské ciele.
 
-Skúsme to – vráťte sa k vyššie uvedenému promptu, ale teraz zmeňte _systémovú správu_ tak, aby dala nasledujúcu inštrukciu ako kontext:
+Skúsme to - vráťte sa k vyššie uvedenému promptu, ale teraz zmeňte _systémovú správu_ tak, aby kontext zahŕňal nasledujúcu inštrukciu:
 
-> _Zhrň obsah, ktorý máte k dispozícii, pre žiaka druhej triedy. Výsledok udržte v jednom odstavci s 3-5 odrážkami._
+> _Zhrňte poskytnutý obsah pre druháka základnej školy. Výsledok nech je v jednom odstavci s 3-5 odrážkami._
 
-Vidíte, že výsledok je teraz prispôsobený požadovanému cieľu a formátu? Učiteľ môže túto odpoveď priamo použiť vo svojich prezentáciách pre tú triedu.
+Vidíte, že výsledok je teraz nastavený na požadovaný cieľ a formát? Učiteľ môže túto odpoveď priamo použiť na svojich prezentáciách pre hodinu.
 
-![Instruction Tuned LLM Chat Completion](../../../translated_images/sk/04-playground-chat-instructions.b30bbfbdf92f2d05.webp)
+![Dopĺňanie chat s Instruction Tuned LLM](../../../translated_images/sk/04-playground-chat-instructions.b30bbfbdf92f2d05.webp)
 
-## Prečo potrebujeme tvorbu promptov?
+## Prečo potrebujeme Prompt Engineering?
 
-Keď už vieme, ako LLM spracúvajú prompty, porozprávajme sa o _tom, prečo_ potrebujeme tvorbu promptov. Odpoveď spočíva v tom, že súčasné LLM predstavujú niekoľko výziev, ktoré robia dosiahnutie _spoľahlivých a konzistentných doplnení_ náročnejším bez investovania úsilia do tvorby a optimalizácie promptov. Napríklad:
+Teraz, keď vieme, ako modely spracovávajú prompty, poďme sa pozrieť na _dôvod_, prečo potrebujeme prompt engineering. Odpoveď spočíva v tom, že súčasné LLM predstavujú niekoľko výziev, ktoré robia _spoľahlivé a konzistentné dokončenia_ náročnejšie, ak sa nevenujeme starostlivému návrhu a optimalizácii promptu. Napríklad:
 
-1. **Odpovede modelov sú stochastické.** _Ten istý prompt_ pravdepodobne vyprodukuje rôzne odpovede s rôznymi modelmi alebo verziami modelu. Môže dokonca vyprodukovať rôzne výsledky s _tým istým modelom_ v rôznom čase. _Techniky tvorby promptov nám môžu pomôcť minimalizovať tieto variácie tým, že poskytujú lepšie zábrany_.
+1. **Odpovede modelu sú náhodné.** _Rovnaký prompt_ môže pravdepodobne generovať rozdielne odpovede v rôznych modeloch alebo verziách modelov. Môže dokonca produkovať rozdielne výsledky s _tým istým modelom_ v rôznych časoch. _Techniky prompt engineeringu nám pomáhajú minimalizovať tieto variácie zabezpečením lepších ochranných mechanizmov_.
 
-1. **Modely môžu vymýšľať odpovede.** Modely sú predtrénované na _veľkých, ale konečných_ datasetoch, čo znamená, že nemajú vedomosti o konceptoch mimo rozsahu tréningu. Výsledkom môže byť, že vytvoria doplnenia, ktoré sú nepresné, smyšlené alebo priamo protirečia známym faktom. _Techniky tvorby promptov pomáhajú používateľom takéto vymýšľanie identifikovať a zmierniť, napríklad tým, že AI požiadajú o citácie alebo odôvodnenie_.
+1. **Modely môžu vyrábať nepravdivé odpovede.** Modely sú predtrénované na _veľkých ale konečných_ dátových množinách, takže nemajú znalosti o konceptoch mimo rozsah ich školenia. Výsledkom môžu byť odpovede, ktoré sú nepresné, vymyslené alebo priamo protichodné známym faktom. _Techniky prompt engineeringu pomáhajú používateľom tieto fabricácie identifikovať a zmierniť napríklad tým, že žiadajú AI o citácie alebo zdôvodnenie_.
 
-1. **Schopnosti modelov sa budú líšiť.** Novšie modely alebo generácie modelov budú mať bohatšie schopnosti, ale tiež prinášajú jedinečné zvláštnosti a kompromisy v nákladoch a komplexnosti. _Tvorba promptov nám pomôže vyvinúť najlepšie postupy a pracovné postupy, ktoré abstrahujú rozdiely a prispôsobujú sa požiadavkám jednotlivých modelov škálovateľným a bezproblémovým spôsobom_.
+1. **Schopnosti modelov sa líšia.** Novšie modely alebo generácie modelov majú bohatšie schopnosti, ale prinášajú aj unikátne zvláštnosti a kompromisy v nákladoch a zložitosti. _Prompt engineering môže pomôcť vyvinúť najlepšie postupy a workflow, ktoré abstraktne odstraňujú rozdiely a prispôsobujú sa modelovo-špecifickým požiadavkám škálovateľným a plynulým spôsobom_.
 
-Pozrime sa na to v praxi v OpenAI alebo Azure OpenAI Playground:
+Poďme si to ukázať v praxi v OpenAI alebo Azure OpenAI Playground:
 
-- Použite ten istý prompt s rôznymi nasadeniami LLM (napr. OpenAI, Azure OpenAI, Hugging Face) – videli ste variácie?
-- Použite ten istý prompt opakovane s _tým istým_ nasadením LLM (napr. Azure OpenAI playground) – ako sa tieto variácie líšili?
+- Použite rovnaký prompt s rôznymi nasadeniami LLM (napr. OpenAI, Azure OpenAI, Hugging Face) - videli ste rozdiely?
+- Použite rovnaký prompt opakovane s _tým istým_ nasadením LLM (napr. Azure OpenAI playground) - ako sú tieto rozdiely rôzne?
 
-### Príklad vymýšľania odpovedí
+### Príklad fabricácií
 
-V tomto kurze používame termín **„vymýšľanie (“fabrication“)“** na označenie javu, keď LLM niekedy generujú faktograficky nesprávne informácie v dôsledku obmedzení v ich tréningu alebo iných okolností. Môžete sa s tým stretnúť aj pod pojmom _„halucinácie“_ v populárnych článkoch alebo vedeckých prácach. Avšak dôrazne odporúčame používať termín _„vymýšľanie“_, aby sme náhodou neantropomorfizovali správanie pripisovaním ľudskej vlastnosti strojovo riadenému výsledku. Toto tiež posilňuje [zásady zodpovednej AI](https://www.microsoft.com/ai/responsible-ai?WT.mc_id=academic-105485-koreyst) z hľadiska terminológie, vyhýbajúc sa výrazom, ktoré môžu byť v niektorých kontextoch považované za nevhodné alebo neinkluzívne.
+V tomto kurze používame pojem **"fabricácia"** na označenie javu, keď LLM niekedy generujú fakticky nesprávne informácie kvôli obmedzeniam ich školenia alebo iným faktorom. Možno ste tiež počuli výraz _"halucinácie"_ v populárnych článkoch alebo vedeckých prácach. Avšak dôrazne odporúčame používať pojem _"fabricácia"_, aby sme náhodou neosobnili správanie modelu tým, že by sme mu prisudzovali ľudskú vlastnosť. To tiež podporuje [zásady zodpovednej AI](https://www.microsoft.com/ai/responsible-ai?WT.mc_id=academic-105485-koreyst) z hľadiska terminológie, odstránením termínov, ktoré môžu byť v niektorých kontextoch považované za nevhodné alebo neinkluzívne.
 
-Chcete si spraviť predstavu, ako vymýšľanie funguje? Predstavte si prompt, ktorý inštruuje AI generovať obsah k neexistujúcej téme (aby ste sa uistili, že nie je v tréningovom datasete). Napríklad – vyskúšal som tento prompt:
+Chcete si predstaviť, ako fabricácie fungujú? Premýšľajte o promte, ktorý požiada AI, aby generovala obsah o neexistujúcej téme (aby sa zabezpečilo, že sa v dátovej sade školenia nenachádza). Napríklad - vyskúšal som tento prompt:
 
-> **Prompt:** vygeneruj plán lekcie o Marťianskej vojne v roku 2076.
-Webové vyhľadávanie mi ukázalo, že existovali fiktívne príbehy (napr. televízne seriály alebo knihy) o marťanských vojnách – ale nijaké z roku 2076. Zdravý rozum nám tiež hovorí, že rok 2076 je _v budúcnosti_ a preto sa nemôže spájať so skutočnou udalosťou.
+> **Prompt:** vygeneruj plán hodiny o Marťanskej vojne v roku 2076.
 
-Tak čo sa stane, keď tento prompt spustíme u rôznych poskytovateľov LLM?
+Vyhľadávanie na webe mi ukázalo, že existujú fiktívne príbehy (napr. televízne seriály alebo knihy) o Marťanských vojnách - ale žiadne o roku 2076. Spoločný rozum nám tiež hovorí, že rok 2076 je _v budúcnosti_ a teda nemôže byť spojený so skutočnou udalosťou.
+
+
+Čo sa teda stane, keď spustíme tento prompt u rôznych poskytovateľov LLM?
 
 > **Odpoveď 1**: OpenAI Playground (GPT-35)
 
@@ -151,54 +151,64 @@ Tak čo sa stane, keď tento prompt spustíme u rôznych poskytovateľov LLM?
 
 ![Odpoveď 3](../../../translated_images/sk/04-fabrication-huggingchat.faf82a0a51278956.webp)
 
-Ako sa očakávalo, každý model (alebo verzia modelu) generuje mierne odlišné odpovede vďaka stochastickému správaniu a rozdielom v schopnostiach modelov. Napríklad jeden model cielený na 8. triedu, zatiaľ čo iný predpokladá študenta strednej školy. Ale všetky tri modely vytvorili odpovede, ktoré by mohli presvedčiť neinformovaného používateľa, že udalosť bola skutočná.
+Ako sa očakávalo, každý model (alebo verzia modelu) produkuje mierne odlišné odpovede vďaka stochastickému správaniu a variáciám schopností modelu. Napríklad jeden model cieli na publikom 8. triedy, zatiaľ čo druhý predpokladá študenta strednej školy. Ale všetky tri modely vygenerovali odpovede, ktoré by mohli presvedčiť neinformovaného používateľa, že udalosť je skutočná.
 
-Techniky prompt engineering ako _metaprompting_ a nastavenie _temperature_ môžu do istej miery znížiť výrobu nepravdivých informácií modelom. Nové _architektúry_ prompt engineering tiež plynulo integrujú nové nástroje a techniky do toku promptu, aby zmiernili alebo znížili tieto efekty.
+Techniky návrhu promptov ako _metaprompting_ a _nastavenie teploty_ môžu do istej miery znížiť vymyslené informácie modelom. Nové architektúry promptov taktiež bezproblémovo integrujú nové nástroje a techniky do priebehu promptu, aby zmiernili alebo znížili niektoré z týchto efektov.
 
 ## Prípadová štúdia: GitHub Copilot
 
-Záverom tejto sekcie si prejdime, ako sa prompt engineering používa v reálnych riešeniach na príklade jednej prípadovej štúdie: [GitHub Copilot](https://github.com/features/copilot?WT.mc_id=academic-105485-koreyst).
+Ukončime túto sekciu tým, že sa pozrieme, ako sa návrh promptov využíva v reálnych riešeniach na príklade jednej prípadovej štúdie: [GitHub Copilot](https://github.com/features/copilot?WT.mc_id=academic-105485-koreyst).
 
-GitHub Copilot je váš „AI parťák programátor“ – prevádza textové prompty na dokončenia kódu a je integrovaný do vášho vývojového prostredia (napr. Visual Studio Code) pre plynulý zážitok používateľa. Ako dokumentujú nasledujúce blogy, najskoršia verzia bola založená na modeli OpenAI Codex – inžinieri rýchlo pochopili potrebu doladenia modelu a vyvinuli lepšie techniky prompt engineering na zlepšenie kvality kódu. V júli predstavili [vylepšený AI model, ktorý ide nad rámec Codexu](https://github.blog/2023-07-28-smarter-more-efficient-coding-github-copilot-goes-beyond-codex-with-improved-ai-model/?WT.mc_id=academic-105485-koreyst) pre ešte rýchlejšie návrhy.
+GitHub Copilot je váš "AI programovací parťák" - prevádza textové prompty na dokončenia kódu a je integrovaný do vývojového prostredia (napr. Visual Studio Code) pre plynulý používateľský zážitok. Ako je zdokumentované v sérii blogov nižšie, najskoršia verzia bola založená na modeli OpenAI Codex - inžinieri však rýchlo pochopili potrebu doladiť model a vyvinúť lepšie techniky návrhu promptov, aby zlepšili kvalitu kódu. V júli predstavili [vylepšený AI model, ktorý presahuje Codex](https://github.blog/2023-07-28-smarter-more-efficient-coding-github-copilot-goes-beyond-codex-with-improved-ai-model/?WT.mc_id=academic-105485-koreyst) pre ešte rýchlejšie návrhy.
 
-Prečítajte si blogy v poradí, aby ste sledovali ich učebný proces.
+Prečítajte si príspevky v poradí, aby ste sledovali ich učenie.
 
-- **Máj 2023** | [GitHub Copilot sa zlepšuje v rozpoznávaní vášho kódu](https://github.blog/2023-05-17-how-github-copilot-is-getting-better-at-understanding-your-code/?WT.mc_id=academic-105485-koreyst)
-- **Máj 2023** | [Inside GitHub: Práca s LLM za GitHub Copilot](https://github.blog/2023-05-17-inside-github-working-with-the-llms-behind-github-copilot/?WT.mc_id=academic-105485-koreyst).
+- **Máj 2023** | [GitHub Copilot sa lepšie učí rozumieť vášmu kódu](https://github.blog/2023-05-17-how-github-copilot-is-getting-better-at-understanding-your-code/?WT.mc_id=academic-105485-koreyst)
+- **Máj 2023** | [Vnútri GitHub: Práca s LLM za GitHub Copilot](https://github.blog/2023-05-17-inside-github-working-with-the-llms-behind-github-copilot/?WT.mc_id=academic-105485-koreyst).
 - **Jún 2023** | [Ako písať lepšie prompty pre GitHub Copilot](https://github.blog/2023-06-20-how-to-write-better-prompts-for-github-copilot/?WT.mc_id=academic-105485-koreyst).
-- **Júl 2023** | [GitHub Copilot ide nad rámec Codexu s vylepšeným AI modelom](https://github.blog/2023-07-28-smarter-more-efficient-coding-github-copilot-goes-beyond-codex-with-improved-ai-model/?WT.mc_id=academic-105485-koreyst)
-- **Júl 2023** | [Sprievodca vývojára prompt engineering a LLM](https://github.blog/2023-07-17-prompt-engineering-guide-generative-ai-llms/?WT.mc_id=academic-105485-koreyst)
-- **Sep 2023** | [Ako vybudovať podnikateľskú LLM aplikáciu: Lekcie z GitHub Copilot](https://github.blog/2023-09-06-how-to-build-an-enterprise-llm-application-lessons-from-github-copilot/?WT.mc_id=academic-105485-koreyst)
+- **Júl 2023** | [.. GitHub Copilot presahuje Codex s vylepšeným AI modelom](https://github.blog/2023-07-28-smarter-more-efficient-coding-github-copilot-goes-beyond-codex-with-improved-ai-model/?WT.mc_id=academic-105485-koreyst)
+- **Júl 2023** | [Sprievodca vývojára návrhom promptov a LLM](https://github.blog/2023-07-17-prompt-engineering-guide-generative-ai-llms/?WT.mc_id=academic-105485-koreyst)
+- **Sep 2023** | [Ako postaviť enterprise LLM aplikáciu: Lekcie z GitHub Copilot](https://github.blog/2023-09-06-how-to-build-an-enterprise-llm-application-lessons-from-github-copilot/?WT.mc_id=academic-105485-koreyst)
 
-Môžete tiež prezerať ich [inžiniersky blog](https://github.blog/category/engineering/?WT.mc_id=academic-105485-koreyst) pre ďalšie príspevky ako [tento](https://github.blog/2023-09-27-how-i-used-github-copilot-chat-to-build-a-reactjs-gallery-prototype/?WT.mc_id=academic-105485-koreyst), ktorý ukazuje, ako sa tieto modely a techniky _aplikujú_ pri tvorbe reálnych aplikácií.
+Môžete si tiež prezrieť ich [Inžiniersky blog](https://github.blog/category/engineering/?WT.mc_id=academic-105485-koreyst) pre ďalšie články ako [tento](https://github.blog/2023-09-27-how-i-used-github-copilot-chat-to-build-a-reactjs-gallery-prototype/?WT.mc_id=academic-105485-koreyst), ktorý ukazuje, ako sa tieto modely a techniky _aplikujú_ na poháňanie reálnych aplikácií.
 
 ---
 
-## Tvorba promptu
+<!--
+ŠABLÓNA LEKCIE:
+Táto jednotka by mala pokryť jadrový koncept #2.
+Posilniť koncept príkladmi a odkazmi.
 
-Videli sme, prečo je prompt engineering dôležitý – teraz si rozoberme, ako sa prompt _stavia_, aby sme mohli vyhodnotiť rôzne techniky na efektívnejšie navrhovanie promptov.
+KONCEPT #2:
+Návrh promptu.
+Ilustrované príkladmi.
+-->
+
+## Konštrukcia promptu
+
+Videli sme, prečo je návrh promptov dôležitý - teraz pochopme, ako sa prompty _konštruujú_, aby sme mohli vyhodnotiť rôzne techniky pre efektívnejší návrh promptov.
 
 ### Základný prompt
 
-Začnime so základným promptom: textovým vstupom zaslaným modelu bez ďalšieho kontextu. Tu je príklad – keď pošleme prvé slová americkej národnej hymny do OpenAI [Completion API](https://platform.openai.com/docs/api-reference/completions?WT.mc_id=academic-105485-koreyst), okamžite _dokončí_ odpoveď ďalšími riadkami, čo ilustruje základné predikčné správanie.
+Začnime so základným promptom: textovým vstupom zaslaným modelu bez ďalšieho kontextu. Tu je príklad - keď pošleme prvé slová národnej hymny USA do OpenAI [Completion API](https://platform.openai.com/docs/api-reference/completions?WT.mc_id=academic-105485-koreyst), model okamžite _dokončí_ odpoveď ďalšími riadkami, čo ilustruje základné predikčné správanie.
 
-| Prompt (Vstup)    | Dokončenie (Výstup)                                                                                                                      |
-| :---------------- | :----------------------------------------------------------------------------------------------------------------------------------------- |
-| Oh say can you see | Znie to, akoby ste začínali text piesne „The Star-Spangled Banner“, národnej hymny USA. Celý text znie takto ...                            |
+| Prompt (Vstup)     | Dokončenie (Výstup)                                                                                                                        |
+| :----------------- | :----------------------------------------------------------------------------------------------------------------------------------------- |
+| Oh say can you see | Znie to, akoby ste začínali so slovami piesne "The Star-Spangled Banner," národnej hymny Spojených štátov. Celý text je ...              |
 
-### Komplexný prompt
+### Zložitý prompt
 
-Teraz pridáme ku základnému promptu kontext a inštrukcie. [Chat Completion API](https://learn.microsoft.com/azure/ai-services/openai/how-to/chatgpt?WT.mc_id=academic-105485-koreyst) nám umožňuje zostaviť komplexný prompt ako súbor _správ_ obsahujúcich:
+Teraz pridajme kontext a inštrukcie k základnému promptu. [Chat Completion API](https://learn.microsoft.com/azure/ai-services/openai/how-to/chatgpt?WT.mc_id=academic-105485-koreyst) nám umožňuje konštruovať zložité prompty ako zbierku _správ_ obsahujúcich:
 
-- páry vstup/výstup, ktoré odrážajú vstup používateľa a odpoveď asistenta,
-- systémovú správu nastavujúcu kontext pre správanie alebo charakter asistenta.
+- Pár vstup/výstup odrážajúcich _vstup používateľa_ a _odpoveď asistenta_.
+- Systémovú správu nastavujúcu kontext pre správanie alebo osobnosť asistenta.
 
-Žiadosť teraz vyzerá takto, kde _tokenizácia_ efektívne zachytáva relevantné informácie z kontextu a konverzácie. Zmena systémového kontextu môže mať preto podobný vplyv na kvalitu dokončení ako poskytované vstupy používateľa.
+Žiadosť má teraz formu nižšie, kde _tokenizácia_ efektívne zachytáva relevantné informácie z kontextu a konverzácie. Zmena systémového kontextu môže mať rovnaký dopad na kvalitu dokončení ako vstupy používateľa.
 
 ```python
-response = openai.chat.completions.create(
-    model="gpt-3.5-turbo",
-    messages=[
+response = client.responses.create(
+    model="gpt-4o-mini",
+    input=[
         {"role": "system", "content": "You are a helpful assistant."},
         {"role": "user", "content": "Who won the world series in 2020?"},
         {"role": "assistant", "content": "The Los Angeles Dodgers won the World Series in 2020."},
@@ -209,193 +219,194 @@ response = openai.chat.completions.create(
 
 ### Inštrukčný prompt
 
-V predchádzajúcich príkladoch bol používateľský prompt jednoduchá textová otázka, ktorú bolo možné interpretovať ako dopyt po informáciách. Pri _inštrukčných_ promptoch môžeme tento text použiť na podrobnejšie špecifikovanie úlohy a tým poskytnúť modelu lepšie usmernenie. Tu je príklad:
+V predchádzajúcich príkladoch bol prompt jednoduchý textový dopyt, ktorý sa dá interpretovať ako žiadosť o informáciu. Pri _inštrukčných_ promptoch môžeme tento text použiť na konkrétnejšie špecifikovanie úlohy, čím AI poskytujeme lepšie usmernenia. Tu je príklad:
 
-| Prompt (Vstup)                                                                                                                                                                                                                         | Dokončenie (Výstup)                                                                                                        | Typ inštrukcie      |
+| Prompt (Vstup)                                                                                                                                                                                                                         | Dokončenie (Výstup)                                                                                                        | Typ inštrukcie    |
 | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------- | :------------------ |
-| Napíš popis Občianskej vojny                                                                                                                                                                                                           | _vrátil jednoduchý odsek_                                                                                                 | Jednoduchý          |
-| Napíš popis Občianskej vojny. Uveď kľúčové dátumy a udalosti a opíš ich význam                                                                                                                                                         | _vrátil odsek, po ktorom nasleduje zoznam kľúčových dátumov s popismi_                                                     | Komplexný           |
-| Napíš popis Občianskej vojny v 1 odseku. Uveď 3 odrážky s kľúčovými dátumami a ich významom. Uveď ďalšie 3 odrážky s dôležitými historickými osobnosťami a ich príspevkami. Výstup vráť vo formáte JSON  | _vracia podrobnejšie údaje v textovom poli, formátované ako JSON, ktorý môžete skopírovať do súboru a podľa potreby overiť_ | Komplexný. Formátovaný. |
+| Napíš opis Občianskej vojny                                                                                                                                                                                                           | _vrátil jednoduchý odsek_                                                                                                  | Jednoduchý         |
+| Napíš opis Občianskej vojny. Uveď kľúčové dátumy a udalosti a popíš ich význam                                                                                                                                                        | _vrátil odsek nasledovaný zoznamom kľúčových dátumov a popisov udalostí_                                                   | Zložitý            |
+| Napíš opis Občianskej vojny v 1 odseku. Uveď 3 bodové body s kľúčovými dátumami a ich významom. Uveď ďalšie 3 bodové body s dôležitými historickými osobnosťami a ich príspevkami. Výstup vráť ako JSON súbor                             | _vracia podrobnejšie informácie v textovom okne formátované ako JSON, ktoré je možné skopírovať do súboru a podľa potreby overiť_ | Zložitý. Formátovaný. |
 
 ## Primárny obsah
 
-V uvedených príkladoch bol prompt stále pomerne otvorený, čo umožnilo LLM rozhodnúť, ktorá časť jeho predtrénovaného datasetu je relevantná. So vzorcom dizajnu _primárny obsah_ sa vstupný text rozdeľuje na dve časti:
+V predchádzajúcich príkladoch bol prompt stále pomerne otvorený, čo modelu umožňovalo rozhodnúť, ktorá časť jeho predtrénovaného datasetu je relevantná. Pri návrhovom vzore _primárny obsah_ je vstupný text rozdelený na dve časti:
 
-- inštrukcia (akcia),
-- relevantný obsah (ktorý ovplyvňuje akciu).
+- inštrukciu (akciu)
+- relevantný obsah (ktorý ovplyvňuje akciu)
 
-Tu je príklad, kde inštrukcia znie „zhrň to v 2 vetách“.
+Tu je príklad, kde inštrukcia je "zhrň toto v 2 vetách".
 
-| Prompt (Vstup)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | Dokončenie (Výstup)                                                                                                                                                                                                                                                                           |
-| :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Jupiter je piata planéta od Slnka a najväčšia v Slnečnej sústave. Je to plynný obor s hmotnosťou iba tisícinu Slnka, no dvakrát a pol ťažší než všetky ostatné planéty Slnečnej sústavy dokopy. Jupiter je jeden z najsvietivejších objektov viditeľných voľným okom na nočnej oblohe a bol známy starovekým civilizáciám už pred zaznamenanou históriou. Je pomenovaný po rímskom bohu Jupiterovi.[19] Z pohľadu Zeme môže byť Jupiter natoľko jasný, že jeho odrazené svetlo vrhá viditeľné tiene,[20] a je v priemere tretím najsvietivejším prírodným objektom na nočnej oblohe po Mesiaci a Venuši. <br/> **Zhrň to v 2 krátkych vetách** | Jupiter, piata planéta od Slnka, je najväčšia v Slnečnej sústave a je známa ako jeden z najsvietivejších objektov na nočnej oblohe. Pomenovaná po rímskom bohovi Jupiterovi, je to plynný obor s hmotnosťou dvakrát a pol väčšou ako všetky ostatné planéty dohromady. |
+| Prompt (Vstup)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | Dokončenie (Výstup)                                                                                                                                                                                                                                                                             |
+| :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Jupiter je piata planéta od Slnka a najväčšia v Slnečnej sústave. Je to plynného obra s hmotnosťou tisícinu hmotnosti Slnka, ale dvojnásobnou a pol hmotnosťou všetkých ostatných planét Slnečnej sústavy dohromady. Jupiter je jedným z najsvetlejších objektov viditeľných voľným okom na nočnej oblohe a je známy starovekým civilizáciám už pred zaznamenanou históriou. Je pomenovaný podľa rímskeho boha Jupitera.[19] Keď ho pozorujeme zo Zeme, Jupiter môže byť dosť jasný na to, že jeho odrazené svetlo vrhá viditeľné tiene,[20] a je v priemere tretím najsvetlejším prírodným objektom na nočnej oblohe po Mesiaci a Venuši. <br/> **Zhrň toto v 2 krátkych vetách** | Jupiter, piata planéta od Slnka, je najväčšia v Slnečnej sústave a je známy tým, že je jedným z najsvetlejších objektov na nočnej oblohe. Pomenovaný po rímskom bohovi Jupiterovi, je to plynný obor, ktorého hmotnosť je dvojnásobná a pol hmotnosti všetkých ostatných planét Slnečnej sústavy dohromady. |
 
-Segment primárneho obsahu možno využiť rôznymi spôsobmi na efektívnejšie inštrukcie:
+Segment primárneho obsahu možno použiť rôznymi spôsobmi na efektívnejšie inštrukcie:
 
-- **Príklady** – namiesto priameho inštruovania modelu mu poskytneme príklady požadovaných výstupov a necháme ho, aby odvodil vzor.
-- **Náznaky** – nasledujú po inštrukcii ako „návnada“, ktorá pripraví dokončenie a usmerní model k relevantnejším odpovediam.
-- **Šablóny** – opakovateľné „recepty“ na prompty s miestami na doplnenie (premennými), ktoré možno prispôsobiť konkrétnym dátam pre dané použitie.
+- **Príklady** - namiesto explicitnej inštrukcie povedať modelu, čo má robiť, dajte mu príklady, čo má robiť, a nechajte ho odvodiť vzor.
+- **Náznaky** - nasledujte inštrukciu „náznakom“, ktorý navádza dokončenie a usmerňuje model k relevantnejším odpovediam.
+- **Šablóny** - sú to opakovateľné „recepty“ promptov s zástupnými znakmi (premennými), ktoré možno prispôsobiť údajmi pre konkrétne použitia.
 
 Poďme si ich ukázať v praxi.
 
 ### Použitie príkladov
 
-Tento prístup využíva primárny obsah na „nakŕmenie modelu“ príkladmi želaných výstupov pre danú inštrukciu, aby model odviedol vzor požadovaného výstupu. Podľa počtu príkladov rozlišujeme zero-shot prompting, one-shot prompting, few-shot prompting a pod.
+Toto je prístup, kde používate primárny obsah na „nakŕmenie modelu“ príkladmi žiadaného výstupu pre danú inštrukciu a necháte ho odvodiť vzor žiadaného výstupu. Na základe počtu poskytnutých príkladov môžeme mať zero-shot prompting, one-shot prompting, few-shot prompting atď.
 
 Prompt teraz pozostáva z troch častí:
 
-- popis úlohy,
-- niekoľko príkladov želaného výstupu,
-- začiatok nového príkladu (ktorý implicitne opisuje ďalšiu úlohu).
+- Popis úlohy
+- Niekoľko príkladov žiadaného výstupu
+- Začiatok nového príkladu (čo sa stáva implicitným popisom úlohy)
 
-| Typ učenia  | Prompt (Vstup)                                                                                                                                    | Dokončenie (Výstup)       |
-| :---------- | :------------------------------------------------------------------------------------------------------------------------------------------------ | :------------------------- |
-| Zero-shot   | „The Sun is Shining“. Prelož do španielčiny                                                                                                      | „El Sol está brillando“.   |
-| One-shot    | „The Sun is Shining“ => „El Sol está brillando“. <br> „It’s a Cold and Windy Day“ =>                                                              | „Es un día frío y ventoso“.|
-| Few-shot    | Hráč bežal po metách => Baseball <br/> Hráč zahral esák => Tenis <br/> Hráč dal šesťku => Kriket <br/> Hráč spravil slam-dunk =>                    | Basketbal                  |
-|             |                                                                                                                                                   |                           |
+| Typ učenia | Prompt (Vstup)                                                                                                                                        | Dokončenie (Výstup)         |
+| :------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------- |
+| Zero-shot     | "The Sun is Shining". Prelož do španielčiny                                                                                                         | "El Sol está brillando".    |
+| One-shot      | "The Sun is Shining" => ""El Sol está brillando". <br> "It's a Cold and Windy Day" =>                                                                 | "Es un día frío y ventoso". |
+| Few-shot      | Hráč bežal po bodoch => Baseball <br/> Hráč zasiahol eso => Tenis <br/> Hráč zasiahol šesťku => Kriket <br/> Hráč urobil smeč =>                     | Basketbal                  |
+|               |                                                                                                                                                       |                             |
 
-Všimnite si, že pri zero-shot sme museli uviesť explicitnú inštrukciu („Prelož do španielčiny“), no pri one-shot sa táto inštrukcia odviedla z príkladu. Few-shot ukazuje, že pridanie viacerých príkladov umožňuje modelom presnejšie odvodiť vzory bez ďalších inštrukcií.
+Všimnite si, ako sme museli poskytnúť explicitnú inštrukciu ("Prelož do španielčiny") pri zero-shot promptingu, ale tá sa odvádza v príklade one-shot promptingu. Príklad few-shot ukazuje, ako pridanie viacerých príkladov umožňuje modelom robiť presnejšie dedukcie bez ďalších inštrukcií.
 
-### Náznaky v promptoch
+### Náznaky promptu
 
-Ďalšia technika využívania primárneho obsahu je poskytnutie _náznakov_ namiesto príkladov. Tu modelu „naznačujeme“ smerovanie tým, že _začneme mu to_ útržkom, ktorý reflektuje požadovaný formát odpovede. Model potom „berie náznak“ a pokračuje v danom smere.
+Ďalšou technikou použitia primárneho obsahu je poskytnutie _náznakov_ namiesto príkladov. V tomto prípade dávame modelu jemný podnet správnym smerom tým, že ho _začíname_ úryvkom, ktorý odráža žiadaný formát odpovede. Model potom „berie náznak“ a pokračuje v tomto smere.
 
-| Počet náznakov | Prompt (Vstup)                                                                                                                                                                                                                                                                                                                                                                                | Dokončenie (Výstup)                                                                                                                                                                                                                                                                                        |
-| :------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 0              | Jupiter je piata planéta od Slnka a najväčšia v Slnečnej sústave. Je to plynný obor s hmotnosťou iba tisícinu Slnka, no dvakrát a pol ťažší než všetky ostatné planéty Slnečnej sústavy dokopy. Jupiter je jeden z najsvietivejších objektov viditeľných voľným okom na nočnej oblohe, a bol známy starovekým civilizáciám už pred zaznamenanou históriou. <br/>**Zhrň toto**                                       | Jupiter je najväčšia planéta v našej Slnečnej sústave a piata od Slnka. Je to plynný obor s hmotnosťou 1/1000 Slnka, ale je ťažší než všetky ostatné planéty dohromady. Staroveké civilizácie poznali Jupiter už dlho a je ľahko viditeľný na nočnej oblohe.                                                        |
-| 1              | Jupiter je piata planéta od Slnka a najväčšia v slnečnej sústave. Je to plynný obor s hmotnosťou jednu tisícinu hmotnosti Slnka, ale dvojnásobne a pol vyššou ako všetky ostatné planéty v slnečnej sústave dokopy. Jupiter je jeden z najjasnejších objektov viditeľných voľným okom na nočnej oblohe a bol známy starovekým civilizáciám už pred zaznamenanou históriou. <br/>**Zhrnutie** <br/> Čo sme sa naučili je, že Jupiter | je piatou planétou od Slnka a najväčšou v slnečnej sústave. Je to plynný obor s hmotnosťou jednu tisícinu hmotnosti Slnka, ale dvojnásobne a pol vyššou ako všetky ostatné planéty dokopy. Je ľahko viditeľný voľným okom a je známy od staroveku.                        |
-| 2              | Jupiter je piata planéta od Slnka a najväčšia v slnečnej sústave. Je to plynný obor s hmotnosťou jednu tisícinu hmotnosti Slnka, ale dvojnásobne a pol vyššou ako všetky ostatné planéty v slnečnej sústave dokopy. Jupiter je jeden z najjasnejších objektov viditeľných voľným okom na nočnej oblohe a bol známy starovekým civilizáciám už pred zaznamenanou históriou. <br/>**Zhrnutie** <br/> Top 3 fakty, ktoré sme sa naučili:         | 1. Jupiter je piatou planétou od Slnka a najväčšou v slnečnej sústave. <br/> 2. Je to plynný obor s hmotnosťou jednu tisícinu hmotnosti Slnka...<br/> 3. Jupiter je viditeľný voľným okom od starovekých čias ...                                                                       |
+| Počet náznakov | Prompt (Vstup)                                                                                                                                                                                                                                                                                                                                                                                                                                               | Dokončenie (Výstup)                                                                                                                                                                                                                                                                                       |
+| :------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0              | Jupiter je piata planéta od Slnka a najväčšia v Slnečnej sústave. Je to plynného obra s hmotnosťou tisícinu hmotnosti Slnka, ale dvojnásobnou a pol hmotnosťou všetkých ostatných planét Slnečnej sústavy dohromady. Jupiter je jedným z najsvetlejších objektov viditeľných voľným okom na nočnej oblohe a je známy starovekým civilizáciám už pred zaznamenanou históriou. <br/>**Zhrň toto**                                       | Jupiter je najväčšia planéta v našej Slnečnej sústave a piata od Slnka. Je to plynného obra s hmotnosťou 1/1000 hmotnosti Slnka, ale ťažší než všetky ostatné planéty dohromady. Staroveké civilizácie poznali Jupitera už dávno a je ľahko viditeľný na nočnej oblohe. |
+| 1              | Jupiter je piata planéta od Slnka a najväčšia v Slnečnej sústave. Je to plynného obra s hmotnosťou tisícinu hmotnosti Slnka, ale dvojnásobnou a pol hmotnosťou všetkých ostatných planét Slnečnej sústavy dohromady. Jupiter je jedným z najsvetlejších objektov viditeľných voľným okom na nočnej oblohe a je známy starovekým civilizáciám už pred zaznamenanou históriou. <br/>**Zhrň toto** <br/> Čo sme sa dozvedeli, je, že Jupiter | je piata planéta od Slnka a najväčšia v Slnečnej sústave. Je to plynného obra s hmotnosťou tisícinu hmotnosti Slnka, ale dvojnásobnou a pol hmotnosťou všetkých ostatných planét dohromady. Je ľahko viditeľný voľným okom a je známy už od staroveku.                           |
+
+| 2              | Jupiter je piata planéta od Slnka a najväčšia v Slnečnej sústave. Je to plynný obor s hmotnosťou jedna tisícina hmotnosti Slnka, ale dvojnásobnou a pol hmotnosti všetkých ostatných planét Slnečnej sústavy spolu. Jupiter je jedným z najjasnejších objektov viditeľných voľným okom na nočnej oblohe a je známy starovekým civilizáciám už pred zaznamenanou históriou. <br/>**Zhrnutie** <br/> Top 3 fakty, ktoré sme sa naučili:         | 1. Jupiter je piata planéta od Slnka a najväčšia v Slnečnej sústave. <br/> 2. Je to plynný obor s hmotnosťou jedna tisícina hmotnosti Slnka...<br/> 3. Jupiter je viditeľný voľným okom od staroveku ...                                                                       |
 |                |                                                                                                                                                                                                                                                                                                                                                                                                                                                              |                                                                                                                                                                                                                                                                                                           |
 
 ### Šablóny výziev
 
-Šablóna výzvy je _preddefinovaný recept na výzvu_, ktorý môže byť uložený a opakovane použitý podľa potreby, aby sa dosiahla konzistentnejšia používateľská skúsenosť vo veľkom meradle. V najjednoduchšej forme je to zbierka príkladov výziev ako [tento od OpenAI](https://cookbook.openai.com/examples/gpt4-1_prompting_guide?WT.mc_id=academic-105485-koreyst), ktorý poskytuje interaktívne časti výzvy (správy používateľa a systému) a formát požiadavky riadený API - pre podporu opätovného použitia.
+Šablóna výzvy je _preddefinovaný recept na výzvu_, ktorý môže byť uložený a znovu použitý podľa potreby na zabezpečenie konzistentnejších používateľských skúseností vo veľkom rozsahu. V jeho najjednoduchšej forme je to jednoducho zbierka príkladov výziev ako [tento od OpenAI](https://cookbook.openai.com/examples/gpt4-1_prompting_guide?WT.mc_id=academic-105485-koreyst), ktorý poskytuje interaktívne komponenty výzvy (správy používateľa a systému) aj formát požiadavky ovládanej API - na podporu opätovného použitia.
 
-V zložitejšej podobe ako [tento príklad od LangChain](https://python.langchain.com/docs/concepts/prompt_templates/?WT.mc_id=academic-105485-koreyst) obsahuje _zástupné symboly_, ktoré môžu byť nahradené údajmi z rôznych zdrojov (vstup používateľa, systémový kontext, externé zdroje dát atď.) na dynamickú tvorbu výzvy. To nám umožňuje vytvoriť knižnicu opakovane použiteľných výziev, ktoré môžu **programovo** zabezpečiť konzistentné používateľské skúsenosti vo veľkom.
+V zložitejšej forme, ako [tento príklad od LangChain](https://python.langchain.com/docs/concepts/prompt_templates/?WT.mc_id=academic-105485-koreyst), obsahuje _zástupné symboly_, ktoré môžu byť nahradené údajmi z rôznych zdrojov (vstup používateľa, kontext systému, externé dátové zdroje atď.), aby sa výzva generovala dynamicky. To nám umožňuje vytvoriť knižnicu znovupoužiteľných výziev, ktoré môžu programovo riadiť konzistentné používateľské skúsenosti vo veľkom rozsahu.
 
-Nakoniec je skutočná hodnota šablón v možnosti vytvárať a publikovať _knižnice výziev_ pre vertikálne aplikačné domény - kde je šablóna výzvy _optimalizovaná_ tak, aby reflektovala kontext špecifický pre aplikáciu alebo príklady, ktoré robia odpovede relevantnejšími a presnejšími pre cieľové používateľské publikum. Repozitár [Prompts For Edu](https://github.com/microsoft/prompts-for-edu?WT.mc_id=academic-105485-koreyst) je skvelým príkladom tohto prístupu, zhromažďujúc knižnicu výziev pre vzdelávaciu sféru s dôrazom na kľúčové ciele ako plánovanie hodín, návrh osnov, doučovanie študentov a pod.
+Skutočná hodnota šablón však spočíva v možnosti vytvárať a publikovať _knižnice výziev_ pre vertikálne aplikačné domény - kde je šablóna výzvy _optimalizovaná_ tak, aby odrážala kontext aplikácie alebo príklady, ktoré robia odpovede relevantnejšie a presnejšie pre cieľové užívateľské publikum. Repozitár [Prompts For Edu](https://github.com/microsoft/prompts-for-edu?WT.mc_id=academic-105485-koreyst) je skvelým príkladom tohto prístupu, ktorý kurátorsky zhromažďuje knižnicu výziev pre vzdelávaciu oblasť so zameraním na kľúčové ciele, ako je plánovanie lekcií, návrh kurikula, doučovanie študentov a pod.
 
 ## Podporný obsah
 
-Ak uvažujeme o konštrukcii výzvy ako o zložení inštrukcie (úlohy) a cieľa (primárneho obsahu), potom _sekundárny obsah_ je ako dodatočný kontext, ktorý poskytujeme na **ovplyvnenie výstupu určitým spôsobom**. Môže ísť o ladacie parametre, pokyny na formátovanie, taxonómie tém a pod., ktoré môžu pomôcť modelu _prispôsobiť_ svoju odpoveď tak, aby vyhovovala očakávaným cieľom používateľa.
+Ak o konštrukcii výzvy uvažujeme ako o inštrukcii (úlohe) a cieľovom obsahu (primárnom obsahu), potom _sekundárny obsah_ je ako dodatočný kontext, ktorý poskytujeme na **ovplyvnenie výstupu nejakým spôsobom**. Môžu to byť ladieace parametre, pokyny na formátovanie, kategórie tém a pod., ktoré môžu pomôcť modelu _prispôsobiť_ svoju odpoveď tak, aby vyhovovala požadovaným používateľským cieľom alebo očakávaniam.
 
-Napríklad: Ak máme katalóg kurzov s rozsiahlymi metadátami (názov, popis, úroveň, značky metadát, lektor atď.) k všetkým dostupným kurzom v osnovách:
+Napríklad: Ak máme katalóg kurzov s rozsiahlymi metadátami (názov, popis, úroveň, metadátové značky, lektor atď.) o všetkých dostupných kurzoch v učebnom pláne:
 
-- môžeme definovať pokyn „zhrnúť katalóg kurzov na jeseň 2023“
+- môžeme definovať inštrukciu "zhrnúť katalóg kurzov na jeseň 2023"
 - môžeme použiť primárny obsah na poskytnutie niekoľkých príkladov požadovaného výstupu
-- môžeme použiť sekundárny obsah na identifikáciu top 5 záujmových „značiek“.
+- môžeme použiť sekundárny obsah na identifikáciu top 5 "štítkov" záujmu.
 
-Model tak môže poskytnúť zhrnutie v tvare ukázanom v príkladoch - no ak má výsledok viacero značiek, uprednostní identifikovaných 5 značiek zo sekundárneho obsahu.
+Teraz môže model poskytnúť zhrnutie vo formáte podľa zopár príkladov - ale ak výsledok má viacero štítkov, môže uprednostniť 5 štítkov určených v sekundárnom obsahu.
 
 ---
 
 <!--
-ŠABLÓNA HODINY:
-Táto jednotka by mala pokryť základný koncept #1.
+ŠABLÓNA LEKCIE:
+Táto jednotka by mala pokryť základný koncept č.1.
 Posilnite koncept príkladmi a odkazmi.
 
-KONCEPT #3:
-Techniky inžinierstva výziev.
-Aké sú základné techniky inžinierstva výziev?
+KONCEPT č.3:
+Techniky promptového inžinierstva.
+Aké sú niektoré základné techniky promptového inžinierstva?
 Ilustrujte to niekoľkými cvičeniami.
 -->
 
-## Najlepšie praktiky pre výzvy
+## Najlepšie praktiky promptovania
 
-Teraz, keď vieme, ako možno výzvy _konštruovať_, môžeme začať premýšľať o tom, ako ich _navrhnúť_ tak, aby odrážali najlepšie praktiky. Môžeme to rozdeliť na dve časti - mať správny _postoj_ a používať správne _techniky_.
+Teraz, keď vieme, ako možno výzvy _konštruovať_, môžeme začať premýšľať, ako ich _navrhovať_, aby odrážali najlepšie praktiky. Môžeme to uvažovať v dvoch častiach - mať správny _postoj_ a aplikovať správne _techniky_.
 
-### Postoj pri inžinierstve výziev
+### Postoj k promptovému inžinierstvu
 
-Inžinierstvo výziev je proces pokus-omyl, takže majte na pamäti tri široké usmerňujúce faktory:
+Promptové inžinierstvo je proces metódy pokusu a omylu, takže majte na pamäti tri hlavné vodítka:
 
-1. **Dôležitý je kontext domény.** Presnosť a relevantnosť odpovede závisí od _domény_, v ktorej daná aplikácia alebo používateľ pôsobí. Použite svoju intuíciu a odborné znalosti domény na ďalšie **prispôsobenie techník**. Napríklad definujte _osobnosti špecifické pre doménu_ vo svojich systémových výzvach alebo používajte _šablóny špecifické pre doménu_ vo výzvach používateľov. Poskytnite sekundárny obsah odrážajúci kontexty domény alebo použite _signály a príklady špecifické pre doménu_ na usmernenie modelu k známym vzorcom používania.
+1. **Znalosť domény je dôležitá.** Presnosť a relevantnosť odpovede závisí od _domeny_, v ktorej aplikácia alebo používateľ pôsobí. Aplikujte svoju intuíciu a odborné znalosti domény na ďalšie **prispôsobenie techník**. Napríklad definujte _doménovo špecifické osobnosti_ vo svojich systémových výzvach alebo použite _doménovo špecifické šablóny_ v používateľských výzvach. Poskytnite sekundárny obsah, ktorý odráža kontexty špecifické pre doménu, alebo použite _doménovo špecifické náznaky a príklady_ na nasmerovanie modelu k známym vzorom použitia.
 
-2. **Dôležité je pochopenie modelu.** Vieme, že modely sú štatistické (stochastické) podľa povahy. Ale implementácie modelov sa môžu líšiť podľa použitého trénovacieho datasetu (predtrénované vedomosti), schopností, ktoré poskytujú (napr. API či SDK), a typu obsahu, na ktorý sú optimalizované (kód, obrázky, text). Pochopte silné a slabé stránky svojho modelu a použite tieto vedomosti na _prioritizovanie úloh_ alebo tvorbu _prispôsobených šablón_ optimalizovaných pre schopnosti modelu.
+2. **Znalosť modelu je dôležitá.** Vieme, že modely sú z povahy stochastické. Ale implementácie modelov sa môžu líšiť v závislosti od použitého tréningového datasetu (predtrénované znalosti), schopností, ktoré poskytujú (napr. cez API alebo SDK) a typu obsahu, na ktorý sú optimalizované (napr. kód vs. obrázky vs. text). Pochopte silné stránky a obmedzenia modelu, ktorý používate, a využite tieto vedomosti na _prioritizáciu úloh_ alebo vytváranie _prispôsobených šablón_ optimalizovaných pre schopnosti modelu.
 
-3. **Dôležitá je iterácia a validácia.** Modely sa rýchlo vyvíjajú, rovnako ako techniky inžinierstva výziev. Ako expert v doméne možno máte vlastný kontext alebo kritériá špecifické pre vašu aplikáciu, ktoré nemusia platiť všeobecne. Použite nástroje a techniky inžinierstva výziev na "rýchly štart" konštrukcie výziev, potom výsledky iterujte a validujte s pomocou vlastnej intuície a odbornosti. Zaznamenávajte si poznatky a vytvorte **znalostnú databázu** (napr. knižnice výziev), ktorú môžu iní používať ako základ pre rýchlejšie iterácie v budúcnosti.
+3. **Iterácia a validácia sú dôležité.** Modely sa rýchlo vyvíjajú, rovnako aj techniky promptového inžinierstva. Ako odborník na doménu môžete mať ďalší kontext alebo kritériá špecifické pre _vašu_ aplikáciu, ktoré nemusia platiť pre širšiu komunitu. Používajte nástroje a techniky promptového inžinierstva na "rýchly štart" konštrukcie výzvy, potom iterujte a validujte výsledky pomocou vlastnej intuície a odborných znalostí. Zaznamenávajte svoje poznatky a vytvárajte **znalostnú databázu** (napr. knižnice výziev), ktorú môžu ostatní použiť ako nový základ pre rýchlejšie iterácie v budúcnosti.
 
 ## Najlepšie praktiky
 
-Pozrime sa teraz na bežné najlepšie praktiky, ktoré odporúčajú odborníci z [OpenAI](https://help.openai.com/en/articles/6654000-best-practices-for-prompt-engineering-with-openai-api?WT.mc_id=academic-105485-koreyst) a [Azure OpenAI](https://learn.microsoft.com/azure/ai-services/openai/concepts/prompt-engineering#best-practices?WT.mc_id=academic-105485-koreyst).
+Teraz sa pozrieme na bežné najlepšie praktiky odporúčané [OpenAI](https://help.openai.com/en/articles/6654000-best-practices-for-prompt-engineering-with-openai-api?WT.mc_id=academic-105485-koreyst) a [Azure OpenAI](https://learn.microsoft.com/azure/ai-services/openai/concepts/prompt-engineering#best-practices?WT.mc_id=academic-105485-koreyst) odborníkmi.
 
-| Čo                                | Prečo                                                                                                                                                                                                                                             |
+| Čo                               | Prečo                                                                                                                                                                                                                                             |
 | :-------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Vyhodnoťte najnovšie modely.      | Nové generácie modelov pravdepodobne ponúkajú vylepšené funkcie a vyššiu kvalitu - no môžu mať tiež vyššie náklady. Vyhodnoťte ich vplyv, potom rozhodnite o migrácii.                                                                            |
-| Oddelte inštrukcie a kontext       | Skontrolujte, či váš model/poskytovateľ definuje _delimiter-y_ na jasnejšie oddelenie inštrukcií, primárneho a sekundárneho obsahu. To môže pomôcť modelom presnejšie prideľovať váhy tokenom.                                                       |
-| Buďte špecifickí a jasní           | Poskytnite viac detailov o požadovanom kontexte, výsledku, dĺžke, formáte, štýle atď. To zlepší kvalitu aj konzistenciu odpovedí. Recepty zachyťte v opakovane použiteľných šablónach.                                                             |
-| Buďte opisní, používajte príklady  | Modely môžu reagovať lepšie na prístup „ukáž a povedz“. Začnite s `zero-shot` prístupom, kedy dáte inštrukciu (bez príkladov), potom skúste `few-shot` ako zdokonalenie s niekoľkými príkladmi požadovaného výstupu. Použite analógie.               |
-| Použite signály na naštartovanie odpovedí | Nakopnite ho k požadovanému výsledku tak, že mu dáte niekoľko vedúcich slov alebo fráz, ktoré môže použiť ako východiskový bod pre odpoveď.                                                                                                           |
-| Opakovanie                        | Niekedy budete musieť modelu niečo zopakovať. Dajte inštrukcie pred a po primárnom obsahu, použite inštrukciu a signál atď. Iterujte a validujte, čo funguje najlepšie.                                                                            |
-| Poradie má význam                | Poradie, v akom poskytujete informácie modelu, môže ovplyvniť výstup, dokonca aj v učebných príkladoch, vďaka efektu nedávnej informácie. Vyskúšajte rôzne možnosti, čo funguje najlepšie.                                                           |
-| Doprajte modelu „únik“           | Dajte modelu možnosť _náhradnej_ odpovede, ktorú môže poskytnúť, ak nemôže splniť úlohu z nejakého dôvodu. To znižuje pravdepodobnosť generovania falošných či vymyslených odpovedí.                                                                |
+| Vyhodnocujte najnovšie modely.  | Nové generácie modelov pravdepodobne ponúkajú zlepšené funkcie a kvalitu - ale môžu tiež priniesť vyššie náklady. Vyhodnoťte ich podľa dopadu a potom sa rozhodnite o migrácii.                                                                        |
+| Oddelte inštrukcie a kontext     | Skontrolujte, či váš model/poskytovateľ definuje _oddeľovače_ na jasnejšie rozlíšenie inštrukcií, primárneho a sekundárneho obsahu. To môže modelom pomôcť presnejšie prideľovať váhy tokenom.                                                         |
+| Buďte konkrétni a jasní           | Poskytnite viac detailov o požadovanom kontexte, výsledku, dĺžke, formáte, štýle atď. To zlepší kvalitu i konzistentnosť odpovedí. Zachyťte recepty v znovupoužiteľných šablónach.                                                                     |
+| Buďte popisní, používajte príklady | Modely môžu lepšie reagovať na prístup "ukáž a povedz". Začnite s `zero-shot` prístupom, kde dávate inštrukciu (bez príkladov) a potom skúste `few-shot` ako vylepšenie, poskytujúc niekoľko príkladov požadovaného výstupu. Používajte analógie.           |
+| Používajte náznaky na naštartovanie dokončení | Postrčte model k želanému výsledku tým, že mu dáte niekoľko úvodných slov alebo fráz, ktoré môže použiť ako východiskový bod pre odpoveď.                                                                                                             |
+| Zdvojte úsilie                  | Niekedy môže byť potrebné model opakovať. Dajte inštrukcie pred a po primárnom obsahu, používajte inštrukciu aj náznak, atď. Iterujte a validujte, aby ste videli, čo funguje.                                                                         |
+| Poradie je dôležité             | Poradie, v akom prezentujete informácie modelu, môže ovplyvniť výstup, dokonca aj v príkladoch učenia, vďaka tendencii uprednostňovať novšie informácie. Skúšajte rôzne možnosti, aby ste zistili, čo najlepšie funguje.                                   |
+| Dajte modelu "výstupnú bránu"    | Dajte modelu odpoveď _náhradného dokončenia_, ktorú môže poskytnúť, ak nemôže úlohu z nejakého dôvodu dokončiť. To môže znížiť riziko generovania nepravdivých alebo vymyslených odpovedí.                                                             |
 |                                   |                                                                                                                                                                                                                                                   |
 
-Ako pri každej najlepšej praxi, pamätajte, že _vaša skúsenosť sa môže líšiť_ v závislosti od modelu, úlohy a domény. Použite tieto odporúčania ako východiskový bod a iterujte, kým nenájdete to, čo vám najlepšie vyhovuje. Neustále prehodnocujte svoj proces inžinierstva výziev, ako sa objavujú nové modely a nástroje, so zameraním na škálovateľnosť procesu a kvalitu odpovedí.
+Ako pri každej najlepšej praxi, nezabudnite, že _váš výsledek sa môže líšiť_ v závislosti od modelu, úlohy a domény. Používajte ich ako východiskový bod a iterujte, kým nenájdete, čo najlepšie funguje pre vás. Neustále prehodnocujte svoj proces promptového inžinierstva, keď sa objavia nové modely a nástroje, so zameraním na škálovateľnosť procesu a kvalitu odpovedí.
 
 <!--
-ŠABLÓNA HODINY:
-Táto jednotka by mala poskytnúť výzvu s kódom, ak je to vhodné.
+ŠABLÓNA LEKCIE:
+Táto jednotka by mala obsahovať programátorskú výzvu, ak je to vhodné
 
 VÝZVA:
-Odkaz na Jupyter Notebook s iba komentármi kódu v inštrukciách (sekcie kódu sú prázdne).
+Odkaz na Jupyter Notebook, kde sú v inštrukciách iba komentáre ku kódu (sekcie kódu sú prázdne).
 
 RIEŠENIE:
-Odkaz na kópiu toho Noteboku s vyplnenými výzvami a spustenými ukážkami, čo by mohol byť jeden príklad.
+Odkaz na kópiu tohto Noteboku s vyplnenými výzvami a spusteným kódom, ktorý ukazuje jeden príklad riešenia.
 -->
 
 ## Zadanie
 
-Gratulujeme! Dospeli ste na koniec lekcie! Je čas vyskúšať niektoré z týchto konceptov a techník na reálnych príkladoch!
+Blahoželáme! Dopracovali ste sa na koniec lekcie! Je čas otestovať niektoré z týchto konceptov a techník na skutočných príkladoch!
 
-Pre naše zadanie použijeme Jupyter Notebook s cvičeniami, ktoré môžete riešiť interaktívne. Môžete tiež rozšíriť Notebook vlastnými Markdown a Kódovými bunkami, aby ste samostatne preskúmali nápady a techniky.
+Pre naše zadanie použijeme Jupyter Notebook s cvičeniami, ktoré môžete interaktívne dokončiť. Notebook si môžete tiež rozšíriť o vlastné Markdown a kódové bunky, aby ste skúmali nápady a techniky samostatne.
 
-### Na začiatok, zforkujte repozitár, potom
+### Na začiatok, vytvorte si fork repozitára, potom
 
 - (Odporúčané) Spustite GitHub Codespaces
-- (Alternatívne) Naklonujte repozitár do svojho lokálneho zariadenia a používajte ho s Docker Desktop
-- (Alternatívne) Otvorte Notebook v preferovanom prostredí pre Notebooky.
+- (Alternatívne) Naklonujte repozitár do lokálneho zariadenia a používajte ho s Docker Desktop
+- (Alternatívne) Otvorte Notebook vo vašom preferovanom prostredí pre Notebooky.
 
-### Ďalej nakonfigurujte svoje premenné prostredia
+### Ďalej nakonfigurujte svoje environmentálne premenné
 
-- Skopírujte súbor `.env.copy` v koreňovom adresári repo do `.env` a vypíšte hodnoty `AZURE_OPENAI_API_KEY`, `AZURE_OPENAI_ENDPOINT` a `AZURE_OPENAI_DEPLOYMENT`. Potom sa vráťte do sekcie [Learning Sandbox](../../../04-prompt-engineering-fundamentals), aby ste sa naučili, ako na to.
+- Skopírujte súbor `.env.copy` v koreňovom priečinku repozitára do `.env` a vyplňte hodnoty `AZURE_OPENAI_API_KEY`, `AZURE_OPENAI_ENDPOINT` a `AZURE_OPENAI_DEPLOYMENT`. Potom sa vráťte do sekcie [Learning Sandbox](#sandbox-na-učenie-sa), kde sa naučíte ako na to.
 
-### Potom otvorte Jupyter Notebook
+### Ďalej otvorte Jupyter Notebook
 
-- Vyberte runtime kernel. Ak používate možnosti 1 alebo 2, jednoducho vyberte predvolený Python 3.10.x kernel, ktorý poskytuje vývojové prostredie.
+- Vyberte runtime kernel. Ak používate možnosti 1 alebo 2, jednoducho vyberte predvolený kernel Python 3.10.x, ktorý poskytuje vývojárske prostredie.
 
-Ste pripravení spustiť cvičenia. Upozorňujeme, že tu nie sú správne ani nesprávne odpovede - ide o skúmanie možností pokusom-omylom a budovanie intuície pre to, čo funguje pre konkrétny model a aplikačnú doménu.
+Ste pripravení spustiť cvičenia. Upozorňujeme, že tu neexistujú _správne alebo nesprávne_ odpovede - len skúmanie možností metódou pokusu a omylu a budovanie intuície o tom, čo funguje pre daný model a aplikačnú doménu.
 
-_Z tohto dôvodu v tejto lekcii nie sú segmenty s riešením kódu. Namiesto toho bude Notebook obsahovať Markdown bunky s názvom „Moje riešenie:“, ktoré ukážu jeden príklad výstupu pre referenciu._
+_Z tohto dôvodu v tejto lekcii nie sú segmenty s riešeniami kódu. Namiesto toho bude Notebook obsahovať markdown bunky s názvom "Moje riešenie:", ktoré ukážu jeden príkladový výstup ako referenciu._
 
  <!--
-ŠABLÓNA HODINY:
-Zhrňte sekciu a uveďte zdroje pre samostatné štúdium.
+ŠABLÓNA LEKCIE:
+Zabaľte sekciu s kontrolou poznatkov a zdrojmi pre samoštúdium.
 -->
 
-## Kontrola vedomostí
+## Kontrola poznatkov
 
-Ktorá z nasledujúcich výziev je dobrá výzva podľa rozumných najlepších praktík?
+Ktorý z nasledujúcich príkladov je dobrá výzva, ktorá nasleduje rozumné najlepšie praktiky?
 
 1. Ukáž mi obrázok červeného auta
 2. Ukáž mi obrázok červeného auta značky Volvo a modelu XC90 zaparkovaného pri útesu pri západe slnka
 3. Ukáž mi obrázok červeného auta značky Volvo a modelu XC90
 
-Odpoveď: 2, je to najlepšia výzva, pretože poskytuje detaily o tom „čo“ a ide do špecifík (nie len akékoľvek auto, ale konkrétna značka a model) a tiež popisuje celkové prostredie. 3 je nasledujúca najlepšia, keďže obsahuje tiež veľa popisu.
+Odpoveď: 2, je to najlepšia výzva, pretože poskytuje detaily o "čo" a ide do špecifík (nie len akékoľvek auto, ale konkrétnu značku a model) a tiež popisuje celkové prostredie. 3 je ďalšia najlepšia, pretože obsahuje veľa popisov.
 
 ## 🚀 Výzva
 
-Skúste využiť techniku „signál“ s výzvou: Dokonči vetu „Ukáž mi obrázok červeného auta značky Volvo a “. Čo odpovie a ako by ste to zlepšili?
+Skúste využiť techniku "náznaku" s výzvou: Dokončete vetu "Ukáž mi obrázok červeného auta značky Volvo a ". Čo vám model odpovie a ako by ste to vylepšili?
 
-## Výborná práca! Pokračujte v učení
+## Skvelá práca! Pokračujte v učení
 
-Chcete sa dozvedieť viac o rôznych konceptoch inžinierstva výziev? Navštívte [stránku s ďalším štúdiom](https://aka.ms/genai-collection?WT.mc_id=academic-105485-koreyst), kde nájdete ďalšie skvelé zdroje na túto tému.
+Chcete sa naučiť viac o rôznych konceptoch promptového inžinierstva? Prejdite na [pokračovaciu stránku učenia](https://aka.ms/genai-collection?WT.mc_id=academic-105485-koreyst), kde nájdete ďalšie skvelé zdroje na túto tému.
 
-Presuňte sa na Lekciu 5, kde sa pozrieme na [pokročilé techniky výziev](../05-advanced-prompts/README.md?WT.mc_id=academic-105485-koreyst)!
+Presuňte sa na Lekciu 5, kde sa pozrieme na [pokročilé techniky promptovania](../05-advanced-prompts/README.md?WT.mc_id=academic-105485-koreyst)!
 
 ---
 
 <!-- CO-OP TRANSLATOR DISCLAIMER START -->
-**Zrieknutie sa zodpovednosti**:
-Tento dokument bol preložený pomocou AI prekladateľskej služby [Co-op Translator](https://github.com/Azure/co-op-translator). Aj keď sa snažíme o presnosť, prosím majte na pamäti, že automatizované preklady môžu obsahovať chyby alebo nepresnosti. Pôvodný dokument v jeho rodnom jazyku by mal byť považovaný za autoritatívny zdroj. Pre dôležité informácie sa odporúča profesionálny ľudský preklad. Neručíme za žiadne nedorozumenia alebo nesprávne interpretácie vyplývajúce z použitia tohto prekladu.
+**Vyhlásenie o zodpovednosti**:
+Tento dokument bol preložený pomocou AI prekladateľskej služby [Co-op Translator](https://github.com/Azure/co-op-translator). Hoci sa snažíme o presnosť, vezmite prosím na vedomie, že automatické preklady môžu obsahovať chyby alebo nepresnosti. Pôvodný dokument v jeho natívnom jazyku by mal byť považovaný za autoritatívny zdroj. Pre kritické informácie sa odporúča profesionálny ľudský preklad. Nie sme zodpovední za žiadne nedorozumenia alebo nesprávne interpretácie vyplývajúce z použitia tohto prekladu.
 <!-- CO-OP TRANSLATOR DISCLAIMER END -->
