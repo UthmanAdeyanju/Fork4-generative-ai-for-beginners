@@ -1,9 +1,8 @@
-import ModelClient from "@azure-rest/ai-inference";
-import { AzureKeyCredential } from "@azure/core-auth";
+import OpenAI from "openai";
 
 // SECURITY: Validate required environment variables
 // Get these from your Microsoft Foundry project's "Overview" page
-// (GitHub Models is retiring end of July 2026 - see https://ai.azure.com/catalog/models)
+// (GitHub Models was retired at the end of July 2026 - see https://ai.azure.com/catalog/models)
 const token = process.env["AZURE_INFERENCE_CREDENTIAL"];
 if (!token) {
     throw new Error("AZURE_INFERENCE_CREDENTIAL environment variable is required. Please set it before running this application.");
@@ -14,39 +13,41 @@ if (!endpoint) {
     throw new Error("AZURE_INFERENCE_ENDPOINT environment variable is required. Please set it before running this application.");
 }
 
-/* By using the Azure AI Inference SDK, you can easily experiment with different models
+/* Because Microsoft Foundry serves many models through the same OpenAI-compatible
+   /openai/v1/ endpoint, you can easily experiment with different models
    by modifying the value of `modelName` in the code below. The following models are
    available in the Microsoft Foundry Models catalog:
 
-   Cohere: Cohere-command-r-08-2024, Cohere-command-r-plus-08-2024
-   Meta: Meta-Llama-3.1-405B-Instruct, Meta-Llama-3.1-70B-Instruct, Meta-Llama-3.1-8B-Instruct, Llama-3.2-11B-Vision-Instruct, Llama-3.2-90B-Vision-Instruct
-   Mistral AI: Mistral-large-2411, Mistral-small-2503, Codestral-2501, Ministral-3B
-   OpenAI: gpt-5-mini, gpt-4o-mini, gpt-4o, gpt-4.1, gpt-4.1-mini
-   Microsoft: Phi-4, Phi-4-mini-instruct, Phi-4-multimodal-instruct, Phi-4-reasoning */
+   OpenAI: gpt-5, gpt-5-mini
+   Meta: Llama-3.3-70B-Instruct, Llama-4-Scout-17B-16E-Instruct
+   Mistral AI: Mistral-Large-3, mistral-small-2503 (see lesson 20)
+   Microsoft: Phi-4, Phi-4-mini-instruct, Phi-4-multimodal-instruct, Phi-4-reasoning
+
+   This sample uses the Responses API, which is the recommended API for OpenAI models.
+   For the other models, call `client.chat.completions.create({ model, messages })`
+   instead and read `response.choices[0].message.content`. */
 const modelName = "gpt-5-mini";
 
 export async function main() {
 
-    const client = new ModelClient(endpoint, new AzureKeyCredential(token));
-
-    const response = await client.path("/chat/completions").post({
-        body: {
-            messages: [
-                { role: "system", content: "You're the president of France"},
-                { role: "system", content: "You have just resigned" },
-                { role: "user", content: "What tasks needs doing?"  },
-            ],
-            model: modelName,
-        }
+    // The OpenAI client points at the Microsoft Foundry OpenAI-compatible /openai/v1/ endpoint.
+    const client = new OpenAI({
+        apiKey: token,
+        baseURL: `${endpoint.replace(/\/$/, "")}/openai/v1/`,
     });
 
-    if (response.status !== "200") {
-        throw response.body.error;
-    }
+    // The SDK throws on non-2xx responses, so no manual status check is needed.
+    const response = await client.responses.create({
+        input: [
+            { role: "system", content: "You're the president of France"},
+            { role: "system", content: "You have just resigned" },
+            { role: "user", content: "What tasks needs doing?"  },
+        ],
+        model: modelName,
+        store: false,
+    });
 
-    for (const choice of response.body.choices) {
-        console.log(choice.message.content);
-    }
+    console.log(response.output_text);
 }
 
 main().catch((err) => {

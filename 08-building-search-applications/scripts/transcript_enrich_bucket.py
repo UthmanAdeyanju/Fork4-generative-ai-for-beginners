@@ -113,6 +113,8 @@ def parse_json_vtt_transcript(vtt, metadata):
     seg_finish_seconds = None
     current_token_length = 0
     first_segment = True
+    # segments is shared by all videos; this video's segments start here
+    first_index = len(segments)
 
     # add the speaker name to the transcript
     if "speaker" in metadata and metadata["speaker"] != "":
@@ -164,15 +166,17 @@ def parse_json_vtt_transcript(vtt, metadata):
 
                 text = current_text + " "
 
-                # reset the segment_begin_time
-                seg_begin_seconds = None
-                seg_finish_seconds = None
+                # the caption that ended the segment begins the next one
+                seg_begin_seconds = current_seconds
+                seg_finish_seconds = seg_begin_seconds + SEGMENT_LENGTH_MINUTES * 60
 
                 current_token_length = len(tokenizer.encode(text))
 
-        # Append the last text segment to the last segment in segments dictionary
-        if seg_begin_seconds and text != "":
-            if segments:
+        # Append the last text segment to the last segment in segments dictionary.
+        # A segment can begin at second 0, and only a segment of this video may
+        # take the text: a video shorter than a bucket has none of its own yet.
+        if seg_begin_seconds is not None and text != "":
+            if len(segments) > first_index:
                 previous_segment_tokens = len(tokenizer.encode(segments[-1]["text"]))
                 current_segment_tokens = len(tokenizer.encode(text))
 
